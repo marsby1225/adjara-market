@@ -242,18 +242,20 @@
             cursor: pointer;
         }
 
-        .photo-preview {
-            display: none;
-            width: 120px;
-            height: 85px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
+        .photo-preview-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-top: 4px;
         }
 
-        .photo-preview.visible {
+        .photo-preview {
             display: block;
+            width: 68px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
         }
 
         .field textarea {
@@ -452,6 +454,47 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 2;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(17, 24, 39, 0.65);
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .slider-btn.prev {
+            left: 8px;
+        }
+
+        .slider-btn.next {
+            right: 8px;
+        }
+
+        .img-counter {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(17, 24, 39, 0.72);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 10px;
+            z-index: 2;
         }
 
         .card-title {
@@ -480,17 +523,39 @@
             margin-bottom: 8px;
         }
 
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
         .card-tg {
-            display: block;
+            flex: 1;
             text-align: center;
             text-decoration: none;
             background: #00c853;
             color: #ffffff;
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
-            margin-top: auto;
+        }
+
+        .btn-del {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-del:hover {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fca5a5;
         }
 
         .empty {
@@ -596,9 +661,9 @@
                             </select>
                         </div>
                         <div class="field">
-                            <label for="f-photo">Фото из галереи</label>
-                            <input type="file" id="f-photo" accept="image/*">
-                            <img id="f-photo-preview" class="photo-preview" alt="Предпросмотр фото">
+                            <label for="f-photo">Фото из галереи (от 1 до 7 шт.)</label>
+                            <input type="file" id="f-photo" accept="image/*" multiple>
+                            <div id="f-photo-preview-list" class="photo-preview-list"></div>
                         </div>
                         <div class="field">
                             <label for="f-tg">Ваш username</label>
@@ -640,13 +705,57 @@
 
     <script>
         (function () {
+            var STORAGE_ADS_KEY = "adjara_market_ads_v1";
+            var STORAGE_FAV_KEY = "adjara_market_favs_v1";
             var FALLBACK_USERNAME = "batumi_market";
+            var MAX_PHOTOS = 7;
             var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
 
             var ads = [];
             var favorites = [];
             var activeTab = "all";
-            var uploadedPhotoDataUrl = "";
+            var uploadedPhotos = [];
+            var slideIndexes = {};
+
+            function loadState() {
+                try {
+                    var rawAds = localStorage.getItem(STORAGE_ADS_KEY);
+                    if (rawAds) {
+                        var parsedAds = JSON.parse(rawAds);
+                        if (Array.isArray(parsedAds)) ads = parsedAds;
+                    }
+                } catch (e) {}
+
+                try {
+                    var rawFavs = localStorage.getItem(STORAGE_FAV_KEY);
+                    if (rawFavs) {
+                        var parsedFavs = JSON.parse(rawFavs);
+                        if (Array.isArray(parsedFavs)) favorites = parsedFavs;
+                    }
+                } catch (e) {}
+
+                updateFavCounter();
+            }
+
+            function saveAds() {
+                try {
+                    localStorage.setItem(STORAGE_ADS_KEY, JSON.stringify(ads));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function saveFavs() {
+                try {
+                    localStorage.setItem(STORAGE_FAV_KEY, JSON.stringify(favorites));
+                } catch (e) {}
+            }
+
+            function updateFavCounter() {
+                var countEl = document.getElementById("fav-count");
+                if (countEl) countEl.textContent = "(" + favorites.length + ")";
+            }
 
             function hasFav(id) {
                 return favorites.indexOf(id) !== -1;
@@ -659,8 +768,27 @@
                 } else {
                     favorites.splice(idx, 1);
                 }
-                var countEl = document.getElementById("fav-count");
-                if (countEl) countEl.textContent = "(" + favorites.length + ")";
+                saveFavs();
+                updateFavCounter();
+                renderAds();
+            }
+
+            function deleteAd(id) {
+                var nextAds = [];
+                for (var i = 0; i < ads.length; i++) {
+                    if (ads[i].id !== id) nextAds.push(ads[i]);
+                }
+                ads = nextAds;
+                delete slideIndexes[id];
+
+                var favIdx = favorites.indexOf(id);
+                if (favIdx !== -1) {
+                    favorites.splice(favIdx, 1);
+                    saveFavs();
+                    updateFavCounter();
+                }
+
+                saveAds();
                 renderAds();
             }
 
@@ -670,6 +798,18 @@
                     return s;
                 }
                 return NO_PHOTO;
+            }
+
+            function getAdImages(item) {
+                var list = [];
+                if (Array.isArray(item.images)) {
+                    for (var i = 0; i < item.images.length; i++) {
+                        if (item.images[i]) list.push(cleanImageSrc(item.images[i]));
+                    }
+                } else if (item.image) {
+                    list.push(cleanImageSrc(item.image));
+                }
+                return list.length > 0 ? list : [NO_PHOTO];
             }
 
             function normalizeUsername(raw) {
@@ -691,15 +831,24 @@
                 }
             }
 
-            function resetPhotoInput() {
-                uploadedPhotoDataUrl = "";
-                var fileInput = document.getElementById("f-photo");
-                var preview = document.getElementById("f-photo-preview");
-                if (fileInput) fileInput.value = "";
-                if (preview) {
-                    preview.src = "";
-                    preview.classList.remove("visible");
+            function renderPhotoPreview() {
+                var previewList = document.getElementById("f-photo-preview-list");
+                if (!previewList) return;
+                previewList.innerHTML = "";
+                for (var i = 0; i < uploadedPhotos.length; i++) {
+                    var thumb = document.createElement("img");
+                    thumb.src = uploadedPhotos[i];
+                    thumb.className = "photo-preview";
+                    thumb.alt = "Фото " + (i + 1);
+                    previewList.appendChild(thumb);
                 }
+            }
+
+            function resetPhotoInput() {
+                uploadedPhotos = [];
+                var fileInput = document.getElementById("f-photo");
+                if (fileInput) fileInput.value = "";
+                renderPhotoPreview();
             }
 
             function compressGalleryImage(file, callback) {
@@ -707,8 +856,8 @@
                 reader.onload = function (ev) {
                     var img = new Image();
                     img.onload = function () {
-                        var maxW = 800;
-                        var maxH = 600;
+                        var maxW = 640;
+                        var maxH = 480;
                         var w = img.width;
                         var h = img.height;
 
@@ -723,7 +872,7 @@
                         canvas.height = h;
                         var ctx = canvas.getContext("2d");
                         ctx.drawImage(img, 0, 0, w, h);
-                        callback(canvas.toDataURL("image/jpeg", 0.82));
+                        callback(canvas.toDataURL("image/jpeg", 0.65));
                     };
                     img.onerror = function () {
                         callback("");
@@ -734,6 +883,31 @@
                     callback("");
                 };
                 reader.readAsDataURL(file);
+            }
+
+            function processMultipleFiles(files) {
+                uploadedPhotos = [];
+                renderPhotoPreview();
+                if (!files || files.length === 0) return;
+
+                var count = Math.min(files.length, MAX_PHOTOS);
+                var results = [];
+                var done = 0;
+
+                for (var i = 0; i < count; i++) {
+                    (function (index, file) {
+                        compressGalleryImage(file, function (dataUrl) {
+                            if (dataUrl) results[index] = dataUrl;
+                            done++;
+                            if (done === count) {
+                                for (var k = 0; k < results.length; k++) {
+                                    if (results[k]) uploadedPhotos.push(results[k]);
+                                }
+                                renderPhotoPreview();
+                            }
+                        });
+                    })(i, files[i]);
+                }
             }
 
             function selectTab(tabName) {
@@ -795,6 +969,12 @@
                 for (var j = 0; j < filtered.length; j++) {
                     (function (item) {
                         var sellerUser = normalizeUsername(item.username);
+                        var imgs = getAdImages(item);
+                        var hasRealPhotos = !(imgs.length === 1 && imgs[0] === NO_PHOTO);
+                        var curIdx = slideIndexes[item.id] || 0;
+                        if (curIdx >= imgs.length) curIdx = 0;
+                        slideIndexes[item.id] = curIdx;
+
                         var card = document.createElement("div");
                         card.className = "card";
 
@@ -802,7 +982,7 @@
                         wrap.className = "img-wrap";
 
                         var img = document.createElement("img");
-                        img.src = item.image ? cleanImageSrc(item.image) : NO_PHOTO;
+                        img.src = imgs[curIdx];
                         img.alt = item.title;
                         img.onerror = function () {
                             this.onerror = null;
@@ -820,6 +1000,34 @@
                         wrap.appendChild(img);
                         wrap.appendChild(heart);
 
+                        if (hasRealPhotos && imgs.length > 1) {
+                            var prevBtn = document.createElement("button");
+                            prevBtn.type = "button";
+                            prevBtn.className = "slider-btn prev";
+                            prevBtn.textContent = "‹";
+                            prevBtn.onclick = function () {
+                                slideIndexes[item.id] = (slideIndexes[item.id] - 1 + imgs.length) % imgs.length;
+                                renderAds();
+                            };
+
+                            var nextBtn = document.createElement("button");
+                            nextBtn.type = "button";
+                            nextBtn.className = "slider-btn next";
+                            nextBtn.textContent = "›";
+                            nextBtn.onclick = function () {
+                                slideIndexes[item.id] = (slideIndexes[item.id] + 1) % imgs.length;
+                                renderAds();
+                            };
+
+                            var counter = document.createElement("span");
+                            counter.className = "img-counter";
+                            counter.textContent = (curIdx + 1) + " / " + imgs.length;
+
+                            wrap.appendChild(prevBtn);
+                            wrap.appendChild(nextBtn);
+                            wrap.appendChild(counter);
+                        }
+
                         var t = document.createElement("div");
                         t.className = "card-title";
                         t.textContent = item.title;
@@ -836,6 +1044,9 @@
                         c.className = "card-city";
                         c.textContent = item.city;
 
+                        var actions = document.createElement("div");
+                        actions.className = "card-actions";
+
                         var link = document.createElement("a");
                         link.className = "card-tg";
                         link.href = "https://t.me/" + sellerUser;
@@ -843,12 +1054,23 @@
                         link.rel = "noopener noreferrer";
                         link.textContent = "Написать продавцу";
 
+                        var delBtn = document.createElement("button");
+                        delBtn.type = "button";
+                        delBtn.className = "btn-del";
+                        delBtn.textContent = "Удалить";
+                        delBtn.onclick = function () {
+                            deleteAd(item.id);
+                        };
+
+                        actions.appendChild(link);
+                        actions.appendChild(delBtn);
+
                         card.appendChild(wrap);
                         card.appendChild(t);
                         card.appendChild(pr);
                         card.appendChild(d);
                         card.appendChild(c);
-                        card.appendChild(link);
+                        card.appendChild(actions);
 
                         grid.appendChild(card);
                     })(filtered[j]);
@@ -856,6 +1078,8 @@
             }
 
             function initApp() {
+                loadState();
+
                 var tabButtons = document.querySelectorAll("#tabs-row .tab-btn");
                 for (var i = 0; i < tabButtons.length; i++) {
                     tabButtons[i].addEventListener("click", function () {
@@ -913,24 +1137,7 @@
                 var photoInput = document.getElementById("f-photo");
                 if (photoInput) {
                     photoInput.addEventListener("change", function () {
-                        var file = this.files && this.files[0];
-                        if (!file) {
-                            resetPhotoInput();
-                            return;
-                        }
-                        compressGalleryImage(file, function (dataUrl) {
-                            uploadedPhotoDataUrl = dataUrl;
-                            var preview = document.getElementById("f-photo-preview");
-                            if (preview) {
-                                if (dataUrl) {
-                                    preview.src = dataUrl;
-                                    preview.classList.add("visible");
-                                } else {
-                                    preview.src = "";
-                                    preview.classList.remove("visible");
-                                }
-                            }
-                        });
+                        processMultipleFiles(this.files);
                     });
                 }
 
@@ -944,17 +1151,28 @@
                         var numPrice = Number(document.getElementById("f-price").value);
                         var priceText = isFinite(numPrice) ? numPrice.toLocaleString("ru-RU") + " ₾" : "0 ₾";
                         var sellerUsername = normalizeUsername(document.getElementById("f-tg").value);
+                        var photoList = uploadedPhotos.slice(0, MAX_PHOTOS);
 
-                        ads.unshift({
+                        var newAd = {
                             id: Date.now(),
                             title: titleVal,
                             price: priceText,
                             category: document.getElementById("f-category").value,
                             city: document.getElementById("f-city").value,
-                            image: uploadedPhotoDataUrl || "",
+                            images: photoList,
                             desc: document.getElementById("f-desc").value.trim() || "Без описания.",
                             username: sellerUsername
-                        });
+                        };
+
+                        ads.unshift(newAd);
+                        var saved = saveAds();
+                        if (!saved && newAd.images.length > 0) {
+                            newAd.images = newAd.images.slice(0, 1);
+                            if (!saveAds()) {
+                                newAd.images = [];
+                                saveAds();
+                            }
+                        }
 
                         adForm.reset();
                         resetPhotoInput();
