@@ -36,8 +36,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .top-links {
@@ -46,47 +44,9 @@
             color: #cccccc;
         }
 
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-fav-top {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-fav-top.active {
-            color: #ff4d4f;
-            font-weight: 700;
-        }
-
-        .btn-create {
-            background: #00aaff;
-            color: #ffffff;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-
-        .btn-create:hover {
-            background: #0095e0;
-        }
-
         /* Основная шапка */
         .main-header {
-            padding: 16px 0 12px;
+            padding: 16px 0;
             border-bottom: 1px solid #f0f0f0;
             position: sticky;
             top: 0;
@@ -175,12 +135,31 @@
             background: #0095e0;
         }
 
-        /* Категории */
+        /* Главная кнопка добавления */
+        .btn-create-main {
+            background: #00aaff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+
+        .btn-create-main:hover {
+            background: #0095e0;
+        }
+
+        /* Категории и вкладки */
         .categories-row {
             display: flex;
             gap: 10px;
             overflow-x: auto;
             padding: 16px 0;
+            align-items: center;
         }
 
         .cat-card {
@@ -204,6 +183,23 @@
             background: #e6f7ff;
             border-color: #00aaff;
             color: #0077b3;
+        }
+
+        /* Вкладка Избранное */
+        .cat-card.fav-tab {
+            background: #fff0f0;
+            color: #d9363e;
+            margin-left: auto;
+        }
+
+        .cat-card.fav-tab:hover {
+            background: #ffe5e5;
+        }
+
+        .cat-card.fav-tab.active {
+            background: #ff4d4f;
+            color: #ffffff;
+            border-color: #d9363e;
         }
 
         .feed-title {
@@ -247,7 +243,7 @@
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             width: 32px;
             height: 32px;
@@ -257,6 +253,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .item-title {
@@ -314,7 +311,8 @@
         .empty-msg {
             grid-column: 1 / -1;
             color: #777777;
-            padding: 20px 0;
+            padding: 30px 0;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -326,12 +324,6 @@
                 <span>Батуми</span>
                 <span>Кобулети</span>
                 <span>Чакви</span>
-            </div>
-            <div class="top-actions">
-                <button class="btn-fav-top" id="fav-filter-btn" type="button">
-                    <span>♡</span> Избранное <span id="fav-count">(0)</span>
-                </button>
-                <button class="btn-create" id="create-ad-btn" type="button">+ Разместить объявление</button>
             </div>
         </div>
     </div>
@@ -358,6 +350,9 @@
                 </select>
                 <button class="btn-search" id="search-btn" type="button">Найти</button>
             </div>
+
+            <!-- ВОТ ОНА: Кнопка разместить объявление -->
+            <button class="btn-create-main" id="create-ad-btn" type="button">+ Разместить объявление</button>
         </div>
     </header>
 
@@ -369,9 +364,14 @@
             <button class="cat-card" type="button" data-category="tech">Электроника</button>
             <button class="cat-card" type="button" data-category="services">Услуги</button>
             <button class="cat-card" type="button" data-category="personal">Личные вещи</button>
+
+            <!-- ВОТ ОНА: Вкладка Избранное -->
+            <button class="cat-card fav-tab" type="button" data-category="favorites">
+                ❤️ Избранное <span id="fav-count">(0)</span>
+            </button>
         </div>
 
-        <h2 class="feed-title">Свежие объявления</h2>
+        <h2 class="feed-title" id="page-title">Свежие объявления</h2>
         <div class="grid" id="items-grid"></div>
     </div>
 
@@ -415,7 +415,6 @@
 
         const favorites = new Set();
         let selectedCategory = "all";
-        let showOnlyFavs = false;
 
         function safeUrl(url, defaultUrl) {
             const trimmed = String(url || "").trim();
@@ -486,15 +485,26 @@
             const searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
             const cityQuery = document.getElementById("city-select").value;
 
+            // Изменение заголовка при переходе на вкладку Избранное
+            const pageTitle = document.getElementById("page-title");
+            if (selectedCategory === "favorites") {
+                pageTitle.textContent = "Избранные объявления";
+            } else {
+                pageTitle.textContent = "Свежие объявления";
+            }
+
             const filtered = items.filter((item) => {
-                const matchesCat = selectedCategory === "all" || item.category === selectedCategory;
+                const matchesCat = selectedCategory === "favorites" 
+                    ? favorites.has(item.id) 
+                    : (selectedCategory === "all" || item.category === selectedCategory);
+                
                 const matchesCity = cityQuery === "all" || item.city === cityQuery;
                 const matchesSearch =
                     !searchQuery ||
                     item.title.toLowerCase().includes(searchQuery) ||
                     item.desc.toLowerCase().includes(searchQuery);
-                const matchesFav = !showOnlyFavs || favorites.has(item.id);
-                return matchesCat && matchesCity && matchesSearch && matchesFav;
+                
+                return matchesCat && matchesCity && matchesSearch;
             });
 
             grid.textContent = "";
@@ -502,7 +512,9 @@
             if (filtered.length === 0) {
                 const empty = document.createElement("p");
                 empty.className = "empty-msg";
-                empty.textContent = "Объявлений не найдено";
+                empty.textContent = selectedCategory === "favorites" 
+                    ? "У вас пока нет сохранённых объявлений" 
+                    : "Объявлений не найдено";
                 grid.appendChild(empty);
                 return;
             }
@@ -527,16 +539,15 @@
         function resetFilters(e) {
             if (e) e.preventDefault();
             selectedCategory = "all";
-            showOnlyFavs = false;
             document.getElementById("search-input").value = "";
             document.getElementById("city-select").value = "all";
-            document.getElementById("fav-filter-btn").classList.remove("active");
             document.querySelectorAll(".cat-card").forEach((btn) => {
                 btn.classList.toggle("active", btn.dataset.category === "all");
             });
             renderItems();
         }
 
+        // Переход по кнопке «Разместить объявление»
         document.getElementById("create-ad-btn").addEventListener("click", function () {
             window.open("https://t.me/", "_blank", "noopener,noreferrer");
         });
@@ -546,6 +557,7 @@
         document.getElementById("city-select").addEventListener("change", renderItems);
         document.getElementById("search-btn").addEventListener("click", renderItems);
 
+        // Переключение категорий и вкладки Избранного
         document.getElementById("categories-container").addEventListener("click", (e) => {
             const btn = e.target.closest(".cat-card");
             if (!btn) return;
@@ -555,10 +567,8 @@
             renderItems();
         });
 
-        document.getElementById("fav-filter-btn").addEventListener("click", function () {
-            showOnlyFavs = !showOnlyFavs;
-            this.classList.toggle("active", showOnlyFavs);
-            renderItems();
-        });
-
         renderItems();
+    </script>
+</body>
+</html>
+
