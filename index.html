@@ -52,20 +52,20 @@
             gap: 14px;
         }
 
-        .btn-fav-top {
-            background: transparent;
-            border: none;
+        .btn-create {
+            background: #00aaff;
             color: #ffffff;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
             font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            transition: background 0.15s;
         }
 
-        .btn-fav-top.active {
-            color: #ff4d4f;
-            font-weight: 700;
+        .btn-create:hover {
+            background: #0095e0;
         }
 
         /* Основная шапка */
@@ -312,9 +312,7 @@
                 <span>Чакви</span>
             </div>
             <div class="top-actions">
-                <button class="btn-fav-top" id="fav-filter-btn" type="button">
-                    <span>♡</span> Избранное <span id="fav-count">(0)</span>
-                </button>
+                <button class="btn-create" id="create-ad-btn" type="button">+ Разместить объявление</button>
             </div>
         </div>
     </div>
@@ -398,7 +396,6 @@
 
         const favorites = new Set();
         let selectedCategory = "all";
-        let showOnlyFavs = false;
 
         function safeUrl(url, defaultUrl) {
             const trimmed = String(url || "").trim();
@@ -476,8 +473,7 @@
                     !searchQuery ||
                     item.title.toLowerCase().includes(searchQuery) ||
                     item.desc.toLowerCase().includes(searchQuery);
-                const matchesFav = !showOnlyFavs || favorites.has(item.id);
-                return matchesCat && matchesCity && matchesSearch && matchesFav;
+                return matchesCat && matchesCity && matchesSearch;
             });
 
             grid.textContent = "";
@@ -503,22 +499,23 @@
             } else {
                 favorites.add(id);
             }
-            document.getElementById("fav-count").textContent = `(${favorites.size})`;
             renderItems();
         }
 
         function resetFilters(e) {
             if (e) e.preventDefault();
             selectedCategory = "all";
-            showOnlyFavs = false;
             document.getElementById("search-input").value = "";
             document.getElementById("city-select").value = "all";
-            document.getElementById("fav-filter-btn").classList.remove("active");
             document.querySelectorAll(".cat-card").forEach((btn) => {
                 btn.classList.toggle("active", btn.dataset.category === "all");
             });
             renderItems();
         }
+
+        document.getElementById("create-ad-btn").addEventListener("click", function () {
+            window.open("https://t.me/", "_blank", "noopener,noreferrer");
+        });
 
         document.getElementById("brand-reset").addEventListener("click", resetFilters);
         document.getElementById("search-input").addEventListener("input", renderItems);
@@ -534,13 +531,8 @@
             renderItems();
         });
 
-        document.getElementById("fav-filter-btn").addEventListener("click", function () {
-            showOnlyFavs = !showOnlyFavs;
-            this.classList.toggle("active", showOnlyFavs);
-            renderItems();
-        });
-
         renderItems();
     </script>
 </body>
 </html>
+
