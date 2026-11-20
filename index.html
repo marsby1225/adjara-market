@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аджария Маркет — Объявления Батуми, Кобулети и Чакви</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .btn-add {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: #16a34a;
+        }
+
+        /* Баннер */
+        .banner {
+            background-color: #1e293b;
+            border: 1px dashed #3b82f6;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-banner {
+            background-color: #eab308;
+            color: #0f172a;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* Фильтры */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filters input, .filters select {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .filters input {
+            flex-grow: 1;
+            min-width: 220px;
+        }
+
+        /* Сетка объявлений */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-image-wrap {
+            width: 100%;
+            height: 180px;
+            background-color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 14px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .card-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+
+        .card-price {
+            font-size: 16px;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card-contact {
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #334155;
+            font-size: 13px;
+            color: #38bdf8;
+        }
+
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal {
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 460px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .preview-box {
+            margin-top: 10px;
+            display: none;
+            position: relative;
+        }
+
+        .preview-box img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        .btn-remove-photo {
+            margin-top: 6px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background-color: #475569;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">АджарияМаркет <span style="font-size: 14px; color: #94a3b8;">GE v2</span></div>
+            <button class="btn-add" id="openModalBtn">➕ Подать объявление</button>
+        </header>
+
+        <div class="banner">
+            <span>📢 <b>Рекламное место:</b> Разместите здесь рекламу своего кафе, проката или услуг в Батуми, Кобулети и Чакви!</span>
+            <a href="#" class="btn-banner">Купить рекламу</a>
+        </div>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="🔍 Поиск по объявлениям...">
+            <select id="citySelect">
+                <option value="">Все города</option>
+                <option value="Батуми">📍 Батуми</option>
+                <option value="Кобулети">📍 Кобулети</option>
+                <option value="Чакви">📍 Чакви</option>
+            </select>
+            <select id="categorySelect">
+                <option value="">Все категории</option>
+                <option value="Электроника и ПК">💻 Электроника и ПК</option>
+                <option value="Услуги и ремонт">🛠 Услуги и ремонт</option>
+                <option value="Транспорт и прокат">🚲 Транспорт и прокат</option>
+            </select>
+        </div>
+
+        <div class="cards-grid" id="adsContainer"></div>
+    </div>
+
+    <!-- Модальное окно подачи объявления -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2>Новое объявление</h2>
+            <form id="addAdForm">
+                <div class="form-group">
+                    <label>Название товара/услуги</label>
+                    <input type="text" id="adTitle" required placeholder="Например: Аренда велосипеда">
+                </div>
+                <div class="form-group">
+                    <label>Город</label>
+                    <select id="adCity" required>
+                        <option value="Батуми">Батуми</option>
+                        <option value="Кобулети">Кобулети</option>
+                        <option value="Чакви">Чакви</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Категория</label>
+                    <select id="adCategory" required>
+                        <option value="Электроника и ПК">Электроника и ПК</option>
+                        <option value="Услуги и ремонт">Услуги и ремонт</option>
+                        <option value="Транспорт и прокат">Транспорт и прокат</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Цена (GEL / ₾)</label>
+                    <input type="text" id="adPrice" required placeholder="50 GEL или Договорная">
+                </div>
+                <div class="form-group">
+                    <label>Фотография</label>
+                    <input type="file" id="adPhoto" accept="image/*">
+                    <div class="preview-box" id="previewBox">
+                        <img id="previewImg" src="" alt="Предпросмотр фото">
+                        <button type="button" class="btn-remove-photo" id="removePhotoBtn">Удалить фото</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="adDesc" rows="3" placeholder="Подробное описание..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Контакты (Телефон или Telegram)</label>
+                    <input type="text" id="adContact" required placeholder="@username или +995...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="closeModalBtn">Отмена</button>
+                    <button type="submit" class="btn-submit">Опубликовать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const initialAds = [
+            {
+                id: 1,
+                title: "Ремонт ноутбуков и ПК",
+                city: "Батуми",
+                category: "Услуги и ремонт",
+                price: "от 30 ₾",
+                photo: "",
+                desc: "Быстрый ремонт, чистка от пыли, замена термопасты.",
+                contact: "+995 555 12-34-56"
+            },
+            {
+                id: 2,
+                title: "Горный велосипед Trek",
+                city: "Кобулети",
+                category: "Транспорт и прокат",
+                price: "25 ₾ / день",
+                photo: "",
+                desc: "В отличном состоянии. Шлем в комплекте.",
+                contact: "@batumi_bike"
+            }
+        ];
+
+        let currentPhotoData = "";
+
+        function getAds() {
+            const saved = localStorage.getItem('adjara_ads');
+            return saved ? JSON.parse(saved) : initialAds;
+        }
+
+        function saveAds(ads) {
+            try {
+                localStorage.setItem('adjara_ads', JSON.stringify(ads));
+                return true;
+            } catch (e) {
+                alert("Не удалось сохранить объявление: закончилось место в localStorage. Попробуйте фото меньшего размера.");
+                return false;
+            }
+        }
+
+        // Сжатие фото перед сохранением в localStorage
+        function compressImage(file, maxWidth = 800, quality = 0.75) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const scale = Math.min(1, maxWidth / img.width);
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.round(img.width * scale);
+                        canvas.height = Math.round(img.height * scale);
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = event.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderAds() {
+            const container = document.getElementById('adsContainer');
+            const ads = getAds();
+
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCity = document.getElementById('citySelect').value;
+            const selectedCategory = document.getElementById('categorySelect').value;
+
+            const filteredAds = ads.filter(ad => {
+                const matchesSearch = ad.title.toLowerCase().includes(searchText) || (ad.desc || '').toLowerCase().includes(searchText);
+                const matchesCity = !selectedCity || ad.city === selectedCity;
+                const matchesCategory = !selectedCategory || ad.category === selectedCategory;
+                return matchesSearch && matchesCity && matchesCategory;
+            });
+
+            container.innerHTML = filteredAds.map(ad => `
+                <article class="card">
+                    <div class="card-image-wrap">
+                        ${ad.photo
+                            ? `<img src="${ad.photo}" alt="${escapeHtml(ad.title)}">`
+                            : `<span>📷 Без фото</span>`
+                        }
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">${escapeHtml(ad.title)}</div>
+                        <div class="card-price">${escapeHtml(ad.price)}</div>
+                        <div class="card-meta">
+                            <span>📍 ${escapeHtml(ad.city)}</span>
+                            <span>•</span>
+                            <span>${escapeHtml(ad.category)}</span>
+                        </div>
+                        <p style="font-size: 14px; color: #cbd5e1;">${escapeHtml(ad.desc || '')}</p>
+                        <div class="card-contact">📞 ${escapeHtml(ad.contact)}</div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            return String(text || '').replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        const modal = document.getElementById('modalOverlay');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const form = document.getElementById('addAdForm');
+        const photoInput = document.getElementById('adPhoto');
+        const previewBox = document.getElementById('previewBox');
+        const previewImg = document.getElementById('previewImg');
+        const removePhotoBtn = document.getElementById('removePhotoBtn');
+
+        function resetPhotoState() {
+            currentPhotoData = "";
+            photoInput.value = "";
+            previewImg.src = "";
+            previewBox.style.display = "none";
+        }
+
+        photoInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) {
+                resetPhotoState();
+                return;
+            }
+            try {
+                currentPhotoData = await compressImage(file);
+                previewImg.src = currentPhotoData;
+                previewBox.style.display = "block";
+            } catch (err) {
+                alert("Не удалось обработать изображение.");
+                resetPhotoState();
+            }
+        });
+
+        removePhotoBtn.addEventListener('click', resetPhotoState);
+
+        openBtn.addEventListener('click', () => modal.style.display = 'flex');
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            resetPhotoState();
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                resetPhotoState();
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newAd = {
+                id: Date.now(),
+                title: document.getElementById('adTitle').value,
+                city: document.getElementById('adCity').value,
+                category: document.getElementById('adCategory').value,
+                price: document.getElementById('adPrice').value,
+                photo: currentPhotoData,
+                desc: document.getElementById('adDesc').value,
+                contact: document.getElementById('adContact').value
+            };
+
+            const ads = getAds();
+            ads.unshift(newAd);
+
+            if (saveAds(ads)) {
+                renderAds();
+                form.reset();
+                resetPhotoState();
+                modal.style.display = 'none';
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('input', renderAds);
+        document.getElementById('citySelect').addEventListener('change', renderAds);
+        document.getElementById('categorySelect').addEventListener('change', renderAds);
+
+        renderAds();
+    </script>
+</body>
+</html>
+
