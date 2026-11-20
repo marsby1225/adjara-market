@@ -228,6 +228,11 @@
             outline: none;
         }
 
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: #9ca3af;
+        }
+
         .field input[type="file"] {
             border: 1px dashed #94a3b8;
             border-radius: 8px;
@@ -409,6 +414,9 @@
 
         .card {
             background: #ffffff;
+            border: 1px solid #eceff3;
+            border-radius: 10px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
         }
@@ -594,7 +602,7 @@
                         </div>
                         <div class="field">
                             <label for="f-tg">Ваш username</label>
-                            <input type="text" id="f-tg" value="@batumi_market" placeholder="Ваш username (@username)">
+                            <input type="text" id="f-tg" placeholder="@ваш_username">
                         </div>
                     </div>
                     <div class="field">
@@ -632,46 +640,10 @@
 
     <script>
         (function () {
-            var DEFAULT_USERNAME = "batumi_market";
-            var DEFAULT_TG = "https://t.me/" + DEFAULT_USERNAME;
+            var FALLBACK_USERNAME = "batumi_market";
             var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
 
-            var ads = [
-                {
-                    id: 1,
-                    title: "Студия с видом на море в Новом Бульваре",
-                    price: "1 200 ₾ / мес",
-                    category: "realty",
-                    city: "Батуми",
-                    desc: "Уютная студия с балконом и ремонтом. Рядом море и парк.",
-                    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
-                    username: DEFAULT_USERNAME,
-                    tg: DEFAULT_TG
-                },
-                {
-                    id: 2,
-                    title: "Toyota Prius 2018 в отличном состоянии",
-                    price: "22 900 ₾",
-                    category: "auto",
-                    city: "Батуми",
-                    desc: "Гибрид, экономичный расход, ухоженный салон.",
-                    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
-                    username: DEFAULT_USERNAME,
-                    tg: DEFAULT_TG
-                },
-                {
-                    id: 3,
-                    title: "MacBook Pro 16 M1 Pro 16/512GB",
-                    price: "3 500 ₾",
-                    category: "tech",
-                    city: "Кобулети",
-                    desc: "Отличное состояние, зарядка в комплекте.",
-                    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
-                    username: DEFAULT_USERNAME,
-                    tg: DEFAULT_TG
-                }
-            ];
-
+            var ads = [];
             var favorites = [];
             var activeTab = "all";
             var uploadedPhotoDataUrl = "";
@@ -702,15 +674,7 @@
 
             function normalizeUsername(raw) {
                 var cleaned = String(raw || "").trim().replace(/^@+/, "");
-                return /^[a-zA-Z0-9_]+$/.test(cleaned) ? cleaned : DEFAULT_USERNAME;
-            }
-
-            function cleanTgUrl(url, fallbackUsername) {
-                var s = String(url || "").trim();
-                if (/^https?:\/\/t\.me\/[a-zA-Z0-9_]+/i.test(s)) {
-                    return s;
-                }
-                return "https://t.me/" + normalizeUsername(fallbackUsername);
+                return /^[a-zA-Z0-9_]+$/.test(cleaned) ? cleaned : FALLBACK_USERNAME;
             }
 
             function setPanel(panelId, openState) {
@@ -821,7 +785,9 @@
                 if (filtered.length === 0) {
                     var p = document.createElement("p");
                     p.className = "empty";
-                    p.textContent = activeTab === "favorites" ? "В избранном пока пусто" : "Объявлений не найдено";
+                    p.textContent = activeTab === "favorites"
+                        ? "В избранном пока пусто"
+                        : "Объявлений пока нет. Нажмите «+ Разместить объявление», чтобы добавить первое.";
                     grid.appendChild(p);
                     return;
                 }
@@ -872,7 +838,7 @@
 
                         var link = document.createElement("a");
                         link.className = "card-tg";
-                        link.href = cleanTgUrl(item.tg, sellerUser);
+                        link.href = "https://t.me/" + sellerUser;
                         link.target = "_blank";
                         link.rel = "noopener noreferrer";
                         link.textContent = "Написать продавцу";
@@ -908,11 +874,7 @@
                 if (btnCancelForm) {
                     btnCancelForm.addEventListener("click", function () {
                         var f = document.getElementById("ad-form");
-                        if (f) {
-                            f.reset();
-                            var tgField = document.getElementById("f-tg");
-                            if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
-                        }
+                        if (f) f.reset();
                         resetPhotoInput();
                         setPanel("panel-form", false);
                     });
@@ -982,7 +944,6 @@
                         var numPrice = Number(document.getElementById("f-price").value);
                         var priceText = isFinite(numPrice) ? numPrice.toLocaleString("ru-RU") + " ₾" : "0 ₾";
                         var sellerUsername = normalizeUsername(document.getElementById("f-tg").value);
-                        var tgUrl = "https://t.me/" + sellerUsername;
 
                         ads.unshift({
                             id: Date.now(),
@@ -992,16 +953,18 @@
                             city: document.getElementById("f-city").value,
                             image: uploadedPhotoDataUrl || "",
                             desc: document.getElementById("f-desc").value.trim() || "Без описания.",
-                            username: sellerUsername,
-                            tg: cleanTgUrl(tgUrl, sellerUsername)
+                            username: sellerUsername
                         });
 
                         adForm.reset();
-                        var tgField = document.getElementById("f-tg");
-                        if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
                         resetPhotoInput();
                         setPanel("panel-form", false);
-                        renderAds();
+
+                        var sIn = document.getElementById("search-input");
+                        var cSel = document.getElementById("city-select");
+                        if (sIn) sIn.value = "";
+                        if (cSel) cSel.value = "all";
+                        selectTab("all");
                     });
                 }
 
