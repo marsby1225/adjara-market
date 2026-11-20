@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аджария Маркет — Объявления Батуми, Кобулети и Чакви</title>
+    <title>Аджария Маркет — Батуми, Кобулети, Чакви</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #ffffff;
+            background: #ffffff;
             color: #000000;
             line-height: 1.4;
         }
@@ -48,9 +48,9 @@
 
         .btn-ads-top {
             background: transparent;
-            border: 1px solid #555555;
+            border: 1px solid #666666;
             color: #ffffff;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
@@ -62,20 +62,20 @@
             color: #00aaff;
         }
 
-        /* Основная шапка */
+        /* Шапка */
         .main-header {
-            padding: 16px 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 14px 0;
+            border-bottom: 1px solid #eeeeee;
             position: sticky;
             top: 0;
             background: #ffffff;
-            z-index: 90;
+            z-index: 100;
         }
 
         .header-row {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
@@ -83,37 +83,35 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #000000;
-            cursor: pointer;
             text-decoration: none;
-            letter-spacing: -0.5px;
+            cursor: pointer;
         }
 
-        .avito-dots {
+        .dots {
             display: grid;
-            grid-template-columns: repeat(2, 10px);
+            grid-template-columns: repeat(2, 9px);
             gap: 3px;
         }
 
-        .avito-dots span {
-            width: 10px;
-            height: 10px;
+        .dots span {
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
             display: block;
         }
 
-        .dot-1 { background: #00aaff; }
-        .dot-2 { background: #00d25b; }
-        .dot-3 { background: #965eeb; }
-        .dot-4 { background: #ff4053; }
+        .d1 { background: #00aaff; }
+        .d2 { background: #00d25b; }
+        .d3 { background: #965eeb; }
+        .d4 { background: #ff4053; }
 
-        /* Поиск */
         .search-box {
             display: flex;
             flex: 1;
-            min-width: 280px;
+            min-width: 260px;
             border: 2px solid #00aaff;
             border-radius: 8px;
             overflow: hidden;
@@ -123,7 +121,7 @@
         .search-box input {
             flex: 1;
             border: none;
-            padding: 10px 14px;
+            padding: 10px 12px;
             font-size: 15px;
             outline: none;
         }
@@ -131,9 +129,8 @@
         .search-box select {
             border: none;
             border-left: 1px solid #e5e5e5;
-            padding: 0 12px;
+            padding: 0 10px;
             font-size: 14px;
-            color: #333333;
             background: #fafafa;
             outline: none;
             cursor: pointer;
@@ -143,22 +140,17 @@
             background: #00aaff;
             color: #ffffff;
             border: none;
-            padding: 0 22px;
-            font-size: 15px;
-            font-weight: 600;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        .btn-search:hover {
-            background: #0095e0;
-        }
-
-        /* Главная кнопка добавления */
         .btn-create-main {
             background: #00aaff;
             color: #ffffff;
             border: none;
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
@@ -166,49 +158,50 @@
             white-space: nowrap;
         }
 
-        .btn-create-main:hover {
-            background: #0095e0;
+        .btn-create-main:hover,
+        .btn-search:hover {
+            background: #0090d9;
         }
 
-        /* Панели */
-        .panel-box {
+        /* Выпадающие панели */
+        .panel {
             display: none;
-            background: #f8f9fb;
-            border: 1px solid #e2e6ec;
+            background: #f7f9fb;
+            border: 1px solid #dce3ea;
             border-radius: 12px;
-            padding: 20px;
-            margin-top: 16px;
+            padding: 18px;
+            margin-top: 14px;
         }
 
-        .panel-box.open {
+        .panel.open {
             display: block;
         }
 
-        .panel-header {
+        .panel-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 14px;
         }
 
-        .panel-header h3 {
+        .panel-top h3 {
             font-size: 18px;
             font-weight: 700;
         }
 
-        .btn-close-panel {
+        .btn-x {
             background: transparent;
             border: none;
             font-size: 24px;
             line-height: 1;
             color: #666666;
             cursor: pointer;
-            padding: 2px 6px;
+            padding: 0 6px;
         }
 
-        .ad-form-grid {
+        .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px;
             margin-bottom: 12px;
         }
@@ -222,47 +215,45 @@
         .field label {
             font-size: 13px;
             font-weight: 600;
-            color: #222222;
         }
 
         .field input,
         .field select,
         .field textarea {
-            border: 1px solid #d0d5dd;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
             padding: 9px 12px;
             font-size: 14px;
             background: #ffffff;
-            color: #000000;
             outline: none;
         }
 
         .field textarea {
-            resize: vertical;
             min-height: 70px;
+            resize: vertical;
             margin-bottom: 12px;
         }
 
-        .form-actions {
+        .form-btns {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
 
-        .btn-submit-ad {
-            background: #00d25b;
+        .btn-ok {
+            background: #00c853;
             color: #ffffff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
         }
 
-        .btn-cancel-ad {
-            background: #eceef2;
-            color: #222222;
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #1e293b;
             border: none;
             padding: 10px 16px;
             border-radius: 8px;
@@ -279,7 +270,7 @@
 
         .promo-card {
             background: #ffffff;
-            border: 1px solid #e2e6ec;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 14px;
             display: flex;
@@ -317,8 +308,8 @@
             margin-top: auto;
         }
 
-        /* Категории и вкладки */
-        .categories-row {
+        /* Вкладки категорий и избранного */
+        .tabs-row {
             display: flex;
             gap: 10px;
             overflow-x: auto;
@@ -326,43 +317,43 @@
             align-items: center;
         }
 
-        .cat-card {
-            background: #f5f5f5;
+        .tab-btn {
+            background: #f3f4f6;
             border: 2px solid transparent;
             border-radius: 10px;
-            padding: 10px 16px;
+            padding: 10px 15px;
             font-size: 14px;
             font-weight: 600;
-            color: #222222;
+            color: #111827;
             cursor: pointer;
             white-space: nowrap;
         }
 
-        .cat-card.active {
-            background: #e6f7ff;
+        .tab-btn.active {
+            background: #e0f2fe;
             border-color: #00aaff;
-            color: #0077b3;
+            color: #0369a1;
         }
 
-        .cat-card.fav-tab {
-            background: #fff0f0;
-            color: #d9363e;
+        .tab-btn.fav-tab {
+            background: #fef2f2;
+            color: #dc2626;
             margin-left: auto;
         }
 
-        .cat-card.fav-tab.active {
-            background: #ff4d4f;
+        .tab-btn.fav-tab.active {
+            background: #ef4444;
             color: #ffffff;
-            border-color: #d9363e;
+            border-color: #dc2626;
         }
 
-        .feed-title {
+        .section-title {
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 16px;
         }
 
-        /* Сетка объявлений */
+        /* Карточки */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -370,81 +361,77 @@
             margin-bottom: 50px;
         }
 
-        .item-card {
+        .card {
             background: #ffffff;
             display: flex;
             flex-direction: column;
         }
 
-        .photo-box {
+        .img-wrap {
             position: relative;
             width: 100%;
             height: 190px;
             border-radius: 8px;
             overflow: hidden;
-            background: #f5f5f5;
+            background: #f1f5f9;
             margin-bottom: 8px;
         }
 
-        .photo-box img {
+        .img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
 
-        .fav-btn {
+        .fav-heart {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            font-size: 16px;
+            border: none;
+            background: rgba(255, 255, 255, 0.92);
+            font-size: 17px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .item-title {
+        .card-title {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             color: #0077ff;
             margin-bottom: 4px;
         }
 
-        .item-price {
+        .card-price {
             font-size: 18px;
-            font-weight: 700;
+            font-weight: 800;
             color: #000000;
             margin-bottom: 4px;
         }
 
-        .item-desc {
+        .card-desc {
             font-size: 13px;
-            color: #555555;
+            color: #4b5563;
             margin-bottom: 6px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
-        .item-meta {
+        .card-city {
             font-size: 12px;
-            color: #888888;
+            color: #6b7280;
             margin-bottom: 8px;
         }
 
-        .tg-btn {
-            display: inline-block;
+        .card-tg {
+            display: block;
             text-align: center;
-            background: #00d25b;
-            color: #ffffff;
             text-decoration: none;
+            background: #00c853;
+            color: #ffffff;
             padding: 8px 12px;
             border-radius: 6px;
             font-size: 13px;
@@ -452,11 +439,11 @@
             margin-top: auto;
         }
 
-        .empty-msg {
+        .empty {
             grid-column: 1 / -1;
-            color: #777777;
-            padding: 30px 0;
-            font-size: 16px;
+            color: #6b7280;
+            padding: 24px 0;
+            font-size: 15px;
         }
     </style>
 </head>
@@ -469,20 +456,20 @@
                 <span>Кобулети</span>
                 <span>Чакви</span>
             </div>
-            <button class="btn-ads-top" id="open-ads-btn" type="button">Купить рекламу</button>
+            <button type="button" class="btn-ads-top" id="btn-toggle-ads">Купить рекламу</button>
         </div>
     </div>
 
     <header class="main-header">
         <div class="container header-row">
-            <a href="#" class="brand" id="brand-reset">
-                <div class="avito-dots">
-                    <span class="dot-1"></span>
-                    <span class="dot-2"></span>
-                    <span class="dot-3"></span>
-                    <span class="dot-4"></span>
-                </div>
-                Аджария Маркет
+            <a href="#top" class="brand" id="btn-reset">
+                <span class="dots">
+                    <span class="d1"></span>
+                    <span class="d2"></span>
+                    <span class="d3"></span>
+                    <span class="d4"></span>
+                </span>
+                <span>Аджария Маркет</span>
             </a>
 
             <div class="search-box">
@@ -493,52 +480,52 @@
                     <option value="Кобулети">Кобулети</option>
                     <option value="Чакви">Чакви</option>
                 </select>
-                <button class="btn-search" id="search-btn" type="button">Найти</button>
+                <button type="button" class="btn-search" id="btn-search">Найти</button>
             </div>
 
-            <button class="btn-create-main" id="create-ad-btn" type="button">+ Разместить объявление</button>
+            <button type="button" class="btn-create-main" id="btn-toggle-form">+ Разместить объявление</button>
         </div>
 
         <div class="container">
-            <div class="panel-box" id="ads-panel">
-                <div class="panel-header">
-                    <h3>Реклама на Аджария Маркет</h3>
-                    <button class="btn-close-panel" id="close-ads-btn" type="button">&times;</button>
+            <div class="panel" id="panel-ads">
+                <div class="panel-top">
+                    <h3>Купить рекламу</h3>
+                    <button type="button" class="btn-x" id="btn-close-ads">&times;</button>
                 </div>
                 <div class="promo-grid">
                     <div class="promo-card">
-                        <div class="promo-title">Поднятие в топ ленты</div>
+                        <div class="promo-title">Поднятие объявления в топ</div>
                         <div class="promo-price">от $5</div>
                         <div class="promo-desc">Закрепление объявления выше обычных в выбранном городе.</div>
-                        <a class="promo-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Заказать в Telegram</a>
+                        <a class="promo-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Написать @marsby19</a>
                     </div>
                     <div class="promo-card">
-                        <div class="promo-title">Баннер / спецразмещение</div>
+                        <div class="promo-title">Реклама бизнеса / баннер</div>
                         <div class="promo-price">по договорённости</div>
-                        <div class="promo-desc">Продвижение бизнеса, недвижимости, авто или услуг в Аджарии.</div>
-                        <a class="promo-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Написать @marsby19</a>
+                        <div class="promo-desc">Размещение спецпредложений для компаний и мастеров в Аджарии.</div>
+                        <a class="promo-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Обсудить в Telegram</a>
                     </div>
                 </div>
             </div>
 
-            <div class="panel-box" id="ad-form-panel">
-                <div class="panel-header">
+            <div class="panel" id="panel-form">
+                <div class="panel-top">
                     <h3>Новое объявление</h3>
-                    <button class="btn-close-panel" id="close-form-btn" type="button">&times;</button>
+                    <button type="button" class="btn-x" id="btn-close-form">&times;</button>
                 </div>
-                <form id="new-ad-form">
-                    <div class="ad-form-grid">
+                <form id="ad-form">
+                    <div class="form-grid">
                         <div class="field">
-                            <label for="ad-title">Название *</label>
-                            <input type="text" id="ad-title" required placeholder="Например: Квартира у моря">
+                            <label for="f-title">Название *</label>
+                            <input type="text" id="f-title" required placeholder="Например: Студия у моря">
                         </div>
                         <div class="field">
-                            <label for="ad-price">Цена ($) *</label>
-                            <input type="number" id="ad-price" required min="0" step="any" placeholder="500">
+                            <label for="f-price">Цена ($) *</label>
+                            <input type="number" id="f-price" required min="0" step="any" placeholder="500">
                         </div>
                         <div class="field">
-                            <label for="ad-category">Категория</label>
-                            <select id="ad-category">
+                            <label for="f-category">Категория</label>
+                            <select id="f-category">
                                 <option value="realty">Недвижимость</option>
                                 <option value="auto">Авто</option>
                                 <option value="tech">Электроника</option>
@@ -547,66 +534,64 @@
                             </select>
                         </div>
                         <div class="field">
-                            <label for="ad-city">Город</label>
-                            <select id="ad-city">
+                            <label for="f-city">Город</label>
+                            <select id="f-city">
                                 <option value="Батуми">Батуми</option>
                                 <option value="Кобулети">Кобулети</option>
                                 <option value="Чакви">Чакви</option>
                             </select>
                         </div>
                         <div class="field">
-                            <label for="ad-image">Ссылка на фото</label>
-                            <input type="text" id="ad-image" placeholder="https://...">
+                            <label for="f-image">Ссылка на фото</label>
+                            <input type="text" id="f-image" placeholder="https://...">
                         </div>
                         <div class="field">
-                            <label for="ad-tg">Telegram (@username)</label>
-                            <input type="text" id="ad-tg" placeholder="@marsby19">
+                            <label for="f-tg">Telegram (@username)</label>
+                            <input type="text" id="f-tg" placeholder="@marsby19">
                         </div>
                     </div>
                     <div class="field">
-                        <label for="ad-desc">Описание</label>
-                        <textarea id="ad-desc" placeholder="Состояние, условия, район..."></textarea>
+                        <label for="f-desc">Описание</label>
+                        <textarea id="f-desc" placeholder="Подробности об объявлении..."></textarea>
                     </div>
-                    <div class="form-actions">
-                        <button class="btn-submit-ad" type="submit">Опубликовать объявление</button>
-                        <button class="btn-cancel-ad" id="cancel-form-btn" type="button">Отмена</button>
+                    <div class="form-btns">
+                        <button type="submit" class="btn-ok">Опубликовать</button>
+                        <button type="button" class="btn-cancel" id="btn-cancel-form">Отмена</button>
                     </div>
                 </form>
             </div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="categories-row" id="categories-container">
-            <button class="cat-card active" id="cat-all" type="button">Все категории</button>
-            <button class="cat-card" id="cat-realty" type="button">Недвижимость</button>
-            <button class="cat-card" id="cat-auto" type="button">Авто</button>
-            <button class="cat-card" id="cat-tech" type="button">Электроника</button>
-            <button class="cat-card" id="cat-services" type="button">Услуги</button>
-            <button class="cat-card" id="cat-personal" type="button">Личные вещи</button>
-            <button class="cat-card fav-tab" id="cat-favorites" type="button">
+    <main class="container">
+        <div class="tabs-row" id="tabs-row">
+            <button type="button" class="tab-btn active" data-tab="all">Все категории</button>
+            <button type="button" class="tab-btn" data-tab="realty">Недвижимость</button>
+            <button type="button" class="tab-btn" data-tab="auto">Авто</button>
+            <button type="button" class="tab-btn" data-tab="tech">Электроника</button>
+            <button type="button" class="tab-btn" data-tab="services">Услуги</button>
+            <button type="button" class="tab-btn" data-tab="personal">Личные вещи</button>
+            <button type="button" class="tab-btn fav-tab" data-tab="favorites">
                 Избранное <span id="fav-count">(0)</span>
             </button>
         </div>
 
-        <h2 class="feed-title" id="page-title">Свежие объявления</h2>
-        <div class="grid" id="items-grid"></div>
-    </div>
+        <h2 class="section-title" id="section-title">Свежие объявления</h2>
+        <div class="grid" id="grid"></div>
+    </main>
 
     <script>
         var DEFAULT_TG = "https://t.me/marsby19";
-        var FALLBACK_IMG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260"><rect width="400" height="260" fill="#f0f2f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="16">Нет фото</text></svg>'
-        );
+        var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
 
-        var items = [
+        var ads = [
             {
                 id: 1,
                 title: "Студия с видом на море в Новом Бульваре",
                 price: "$450 / мес",
                 category: "realty",
                 city: "Батуми",
-                desc: "Уютная студия с балконом и современным ремонтом. Есть всё необходимое для жизни.",
+                desc: "Уютная студия с балконом и ремонтом. Рядом море и парк.",
                 image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
                 tg: DEFAULT_TG
             },
@@ -616,7 +601,7 @@
                 price: "$8,500",
                 category: "auto",
                 city: "Батуми",
-                desc: "Гибрид, небольшой пробег, ухоженный салон.",
+                desc: "Гибрид, экономичный расход, ухоженный салон.",
                 image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
                 tg: DEFAULT_TG
             },
@@ -626,191 +611,241 @@
                 price: "$1,300",
                 category: "tech",
                 city: "Кобулети",
-                desc: "Идеальное состояние, полный комплект. Батарея 92%.",
+                desc: "Отличное состояние, зарядка в комплекте.",
                 image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
                 tg: DEFAULT_TG
             }
         ];
 
-        var favIds = [];
-        var currentTab = "all";
+        var favorites = [];
+        var activeTab = "all";
 
-        function isFav(id) {
-            return favIds.indexOf(id) !== -1;
+        function hasFav(id) {
+            return favorites.indexOf(id) !== -1;
         }
 
         function toggleFav(id) {
-            var idx = favIds.indexOf(id);
+            var idx = favorites.indexOf(id);
             if (idx === -1) {
-                favIds.push(id);
+                favorites.push(id);
             } else {
-                favIds.splice(idx, 1);
+                favorites.splice(idx, 1);
             }
-            document.getElementById("fav-count").textContent = "(" + favIds.length + ")";
-            render();
+            var countEl = document.getElementById("fav-count");
+            if (countEl) countEl.textContent = "(" + favorites.length + ")";
+            renderAds();
         }
 
-        function setActiveTab(tabName, btnId) {
-            currentTab = tabName;
-            var allBtns = document.querySelectorAll("#categories-container .cat-card");
-            for (var i = 0; i < allBtns.length; i++) {
-                allBtns[i].classList.remove("active");
-            }
-            var targetBtn = document.getElementById(btnId);
-            if (targetBtn) {
-                targetBtn.classList.add("active");
-            }
-            render();
+        function cleanUrl(url, fallback) {
+            var s = String(url || "").trim();
+            return /^https?:\/\//i.test(s) ? s : fallback;
         }
 
-        function safeHttpUrl(val, fallback) {
-            var s = String(val || "").trim();
-            if (/^https?:\/\//i.test(s)) {
-                return s;
-            }
-            return fallback;
+        function setPanel(panelId, openState) {
+            var formPanel = document.getElementById("panel-form");
+            var adsPanel = document.getElementById("panel-ads");
+            var target = document.getElementById(panelId);
+            if (!target) return;
+
+            var shouldOpen = typeof openState === "boolean" ? openState : !target.classList.contains("open");
+            if (formPanel) formPanel.classList.remove("open");
+            if (adsPanel) adsPanel.classList.remove("open");
+            if (shouldOpen) target.classList.add("open");
         }
 
-        function render() {
-            var grid = document.getElementById("items-grid");
-            var titleEl = document.getElementById("page-title");
-            var searchText = document.getElementById("search-input").value.trim().toLowerCase();
-            var cityVal = document.getElementById("city-select").value;
-
-            titleEl.textContent = currentTab === "favorites" ? "Избранные объявления" : "Свежие объявления";
-
-            var list = [];
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                var okTab = false;
-                if (currentTab === "favorites") {
-                    okTab = isFav(item.id);
-                } else if (currentTab === "all") {
-                    okTab = true;
+        function selectTab(tabName) {
+            activeTab = tabName;
+            var buttons = document.querySelectorAll("#tabs-row .tab-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                var btnTab = buttons[i].getAttribute("data-tab");
+                if (btnTab === tabName) {
+                    buttons[i].classList.add("active");
                 } else {
-                    okTab = item.category === currentTab;
+                    buttons[i].classList.remove("active");
                 }
+            }
+            renderAds();
+        }
 
-                var okCity = (cityVal === "all" || item.city === cityVal);
-                var okSearch = !searchText ||
-                    item.title.toLowerCase().indexOf(searchText) !== -1 ||
-                    item.desc.toLowerCase().indexOf(searchText) !== -1;
+        function renderAds() {
+            var grid = document.getElementById("grid");
+            var titleEl = document.getElementById("section-title");
+            var searchInput = document.getElementById("search-input");
+            var citySelect = document.getElementById("city-select");
+            if (!grid) return;
 
-                if (okTab && okCity && okSearch) {
-                    list.push(item);
+            var q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+            var city = citySelect ? citySelect.value : "all";
+
+            if (titleEl) {
+                titleEl.textContent = activeTab === "favorites" ? "Избранные объявления" : "Свежие объявления";
+            }
+
+            var filtered = [];
+            for (var i = 0; i < ads.length; i++) {
+                var ad = ads[i];
+                var matchTab = activeTab === "favorites"
+                    ? hasFav(ad.id)
+                    : (activeTab === "all" || ad.category === activeTab);
+                var matchCity = city === "all" || ad.city === city;
+                var matchSearch = !q ||
+                    ad.title.toLowerCase().indexOf(q) !== -1 ||
+                    ad.desc.toLowerCase().indexOf(q) !== -1;
+
+                if (matchTab && matchCity && matchSearch) {
+                    filtered.push(ad);
                 }
             }
 
             grid.innerHTML = "";
 
-            if (list.length === 0) {
-                var empty = document.createElement("p");
-                empty.className = "empty-msg";
-                empty.textContent = currentTab === "favorites"
-                    ? "В избранном пока пусто"
-                    : "Объявлений не найдено";
-                grid.appendChild(empty);
+            if (filtered.length === 0) {
+                var p = document.createElement("p");
+                p.className = "empty";
+                p.textContent = activeTab === "favorites" ? "В избранном пока пусто" : "Объявлений не найдено";
+                grid.appendChild(p);
                 return;
             }
 
-            for (var j = 0; j < list.length; j++) {
-                (function (it) {
+            for (var j = 0; j < filtered.length; j++) {
+                (function (item) {
                     var card = document.createElement("div");
-                    card.className = "item-card";
+                    card.className = "card";
 
-                    var photoBox = document.createElement("div");
-                    photoBox.className = "photo-box";
+                    var wrap = document.createElement("div");
+                    wrap.className = "img-wrap";
 
                     var img = document.createElement("img");
-                    img.src = it.image ? safeHttpUrl(it.image, FALLBACK_IMG) : FALLBACK_IMG;
-                    img.alt = it.title;
+                    img.src = item.image ? cleanUrl(item.image, NO_PHOTO) : NO_PHOTO;
+                    img.alt = item.title;
                     img.onerror = function () {
                         this.onerror = null;
-                        this.src = FALLBACK_IMG;
+                        this.src = NO_PHOTO;
                     };
 
-                    var favBtn = document.createElement("button");
-                    favBtn.type = "button";
-                    favBtn.className = "fav-btn";
-                    favBtn.textContent = isFav(it.id) ? "♥" : "♡";
-                    favBtn.onclick = function () {
-                        toggleFav(it.id);
+                    var heart = document.createElement("button");
+                    heart.type = "button";
+                    heart.className = "fav-heart";
+                    heart.textContent = hasFav(item.id) ? "♥" : "♡";
+                    heart.onclick = function () {
+                        toggleFav(item.id);
                     };
 
-                    photoBox.appendChild(img);
-                    photoBox.appendChild(favBtn);
+                    wrap.appendChild(img);
+                    wrap.appendChild(heart);
 
-                    var itemTitle = document.createElement("div");
-                    itemTitle.className = "item-title";
-                    itemTitle.textContent = it.title;
+                    var t = document.createElement("div");
+                    t.className = "card-title";
+                    t.textContent = item.title;
 
-                    var price = document.createElement("div");
-                    price.className = "item-price";
-                    price.textContent = it.price;
+                    var pr = document.createElement("div");
+                    pr.className = "card-price";
+                    pr.textContent = item.price;
 
-                    var desc = document.createElement("div");
-                    desc.className = "item-desc";
-                    desc.textContent = it.desc;
+                    var d = document.createElement("div");
+                    d.className = "card-desc";
+                    d.textContent = item.desc;
 
-                    var meta = document.createElement("div");
-                    meta.className = "item-meta";
-                    meta.textContent = it.city;
+                    var c = document.createElement("div");
+                    c.className = "card-city";
+                    c.textContent = item.city;
 
-                    var tgLink = document.createElement("a");
-                    tgLink.className = "tg-btn";
-                    tgLink.href = safeHttpUrl(it.tg, DEFAULT_TG);
-                    tgLink.target = "_blank";
-                    tgLink.rel = "noopener noreferrer";
-                    tgLink.textContent = "Написать продавцу";
+                    var link = document.createElement("a");
+                    link.className = "card-tg";
+                    link.href = cleanUrl(item.tg, DEFAULT_TG);
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = "Написать продавцу";
 
-                    card.appendChild(photoBox);
-                    card.appendChild(itemTitle);
-                    card.appendChild(price);
-                    card.appendChild(desc);
-                    card.appendChild(meta);
-                    card.appendChild(tgLink);
+                    card.appendChild(wrap);
+                    card.appendChild(t);
+                    card.appendChild(pr);
+                    card.appendChild(d);
+                    card.appendChild(c);
+                    card.appendChild(link);
 
                     grid.appendChild(card);
-                })(list[j]);
+                })(filtered[j]);
             }
         }
 
-        function openOnlyPanel(panelId) {
-            var formP = document.getElementById("ad-form-panel");
-            var adsP = document.getElementById("ads-panel");
-            var target = document.getElementById(panelId);
-            var wasOpen = target.classList.contains("open");
+        document.addEventListener("click", function (e) {
+            var target = e.target;
+            if (!target) return;
 
-            formP.classList.remove("open");
-            adsP.classList.remove("open");
-
-            if (!wasOpen) {
-                target.classList.add("open");
+            if (target.closest("#btn-toggle-form")) {
+                setPanel("panel-form");
+                return;
             }
+            if (target.closest("#btn-close-form") || target.closest("#btn-cancel-form")) {
+                var f = document.getElementById("ad-form");
+                if (f) f.reset();
+                setPanel("panel-form", false);
+                return;
+            }
+            if (target.closest("#btn-toggle-ads")) {
+                setPanel("panel-ads");
+                return;
+            }
+            if (target.closest("#btn-close-ads")) {
+                setPanel("panel-ads", false);
+                return;
+            }
+            if (target.closest("#btn-reset")) {
+                e.preventDefault();
+                var sIn = document.getElementById("search-input");
+                var cSel = document.getElementById("city-select");
+                if (sIn) sIn.value = "";
+                if (cSel) cSel.value = "all";
+                selectTab("all");
+                return;
+            }
+            if (target.closest("#btn-search")) {
+                renderAds();
+                return;
+            }
+
+            var tabBtn = target.closest("#tabs-row .tab-btn");
+            if (tabBtn) {
+                var tab = tabBtn.getAttribute("data-tab");
+                if (tab) selectTab(tab);
+            }
+        });
+
+        var adForm = document.getElementById("ad-form");
+        if (adForm) {
+            adForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                var titleVal = document.getElementById("f-title").value.trim();
+                if (!titleVal) return;
+
+                var numPrice = Number(document.getElementById("f-price").value);
+                var priceText = isFinite(numPrice) ? "$" + numPrice.toLocaleString("en-US") : "$0";
+                var rawTg = document.getElementById("f-tg").value.trim().replace(/^@+/, "");
+
+                ads.unshift({
+                    id: Date.now(),
+                    title: titleVal,
+                    price: priceText,
+                    category: document.getElementById("f-category").value,
+                    city: document.getElementById("f-city").value,
+                    image: document.getElementById("f-image").value.trim(),
+                    desc: document.getElementById("f-desc").value.trim() || "Без описания.",
+                    tg: rawTg ? "https://t.me/" + encodeURIComponent(rawTg) : DEFAULT_TG
+                });
+
+                adForm.reset();
+                setPanel("panel-form", false);
+                renderAds();
+            });
         }
 
-        document.getElementById("create-ad-btn").onclick = function () {
-            openOnlyPanel("ad-form-panel");
-        };
-        document.getElementById("close-form-btn").onclick = function () {
-            document.getElementById("ad-form-panel").classList.remove("open");
-        };
-        document.getElementById("cancel-form-btn").onclick = function () {
-            document.getElementById("new-ad-form").reset();
-            document.getElementById("ad-form-panel").classList.remove("open");
-        };
+        var searchEl = document.getElementById("search-input");
+        var cityEl = document.getElementById("city-select");
+        if (searchEl) searchEl.addEventListener("input", renderAds);
+        if (cityEl) cityEl.addEventListener("change", renderAds);
 
-        document.getElementById("open-ads-btn").onclick = function () {
-            openOnlyPanel("ads-panel");
-        };
-        document.getElementById("close-ads-btn").onclick = function () {
-            document.getElementById("ads-panel").classList.remove("open");
-        };
-
-        document.getElementById("new-ad-form").onsubmit = function (e) {
-            e.preventDefault();
-            var titleVal = document.getElementById("ad-title").value.trim();
-            if (!titleVal) return;
-
-            var numPrice = Number(document.getElementById("ad-price").value);
-            var priceStr = isFinite(numPrice) ? "$" + numPrice.toLocaleString("en-US") : "$0";
+        renderAds();
+    </script>
+</body>
+</html>
