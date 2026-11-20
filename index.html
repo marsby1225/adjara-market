@@ -153,422 +153,73 @@
             background: #0095e0;
         }
 
-        /* Категории и вкладки */
-        .categories-row {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 16px 0;
-            align-items: center;
+        /* Панель формы размещения объявления */
+        .ad-form-panel {
+            display: none;
+            background: #f8f9fb;
+            border: 1px solid #e2e6ec;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
         }
 
-        .cat-card {
-            background: #f5f5f5;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #222222;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: 0.15s;
-        }
-
-        .cat-card:hover {
-            background: #ebebeb;
-        }
-
-        .cat-card.active {
-            background: #e6f7ff;
-            border-color: #00aaff;
-            color: #0077b3;
-        }
-
-        /* Вкладка Избранное */
-        .cat-card.fav-tab {
-            background: #fff0f0;
-            color: #d9363e;
-            margin-left: auto;
-        }
-
-        .cat-card.fav-tab:hover {
-            background: #ffe5e5;
-        }
-
-        .cat-card.fav-tab.active {
-            background: #ff4d4f;
-            color: #ffffff;
-            border-color: #d9363e;
-        }
-
-        .feed-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        /* Сетка объявлений */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px 16px;
-            margin-bottom: 50px;
-        }
-
-        .item-card {
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .photo-box {
-            position: relative;
-            width: 100%;
-            height: 190px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #f5f5f5;
-            margin-bottom: 8px;
-        }
-
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .ad-form-panel.open {
             display: block;
         }
 
-        .fav-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 16px;
-            cursor: pointer;
+        .ad-form-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 14px;
         }
 
-        .item-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #0077ff;
-            margin-bottom: 4px;
-            cursor: pointer;
-        }
-
-        .item-title:hover {
-            color: #ff4053;
-        }
-
-        .item-price {
+        .ad-form-header h3 {
             font-size: 18px;
             font-weight: 700;
+        }
+
+        .btn-close-form {
+            background: transparent;
+            border: none;
+            font-size: 22px;
+            line-height: 1;
+            color: #666666;
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        .btn-close-form:hover {
             color: #000000;
-            margin-bottom: 4px;
         }
 
-        .item-desc {
-            font-size: 13px;
-            color: #555555;
-            margin-bottom: 6px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .ad-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .item-meta {
-            font-size: 12px;
-            color: #888888;
-            margin-bottom: 8px;
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .tg-btn {
-            display: inline-block;
-            text-align: center;
-            background: #00d25b;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+        .field label {
             font-size: 13px;
             font-weight: 600;
-            margin-top: auto;
+            color: #222222;
         }
 
-        .tg-btn:hover {
-            background: #00b84f;
+        .field input,
+        .field select,
+        .field textarea {
+            border: 1px solid #d0d5dd;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #000000;
+            outline: none;
         }
-
-        .empty-msg {
-            grid-column: 1 / -1;
-            color: #777777;
-            padding: 30px 0;
-            font-size: 16px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="top-bar">
-        <div class="container top-bar-inner">
-            <div class="top-links">
-                <span>Батуми</span>
-                <span>Кобулети</span>
-                <span>Чакви</span>
-            </div>
-        </div>
-    </div>
-
-    <header class="main-header">
-        <div class="container header-row">
-            <a href="#" class="brand" id="brand-reset">
-                <div class="avito-dots">
-                    <span class="dot-1"></span>
-                    <span class="dot-2"></span>
-                    <span class="dot-3"></span>
-                    <span class="dot-4"></span>
-                </div>
-                Аджария Маркет
-            </a>
-
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Поиск по объявлениям...">
-                <select id="city-select">
-                    <option value="all">Все города</option>
-                    <option value="Батуми">Батуми</option>
-                    <option value="Кобулети">Кобулети</option>
-                    <option value="Чакви">Чакви</option>
-                </select>
-                <button class="btn-search" id="search-btn" type="button">Найти</button>
-            </div>
-
-            <!-- ВОТ ОНА: Кнопка разместить объявление -->
-            <button class="btn-create-main" id="create-ad-btn" type="button">+ Разместить объявление</button>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="categories-row" id="categories-container">
-            <button class="cat-card active" type="button" data-category="all">Все категории</button>
-            <button class="cat-card" type="button" data-category="realty">Недвижимость</button>
-            <button class="cat-card" type="button" data-category="auto">Авто</button>
-            <button class="cat-card" type="button" data-category="tech">Электроника</button>
-            <button class="cat-card" type="button" data-category="services">Услуги</button>
-            <button class="cat-card" type="button" data-category="personal">Личные вещи</button>
-
-            <!-- ВОТ ОНА: Вкладка Избранное -->
-            <button class="cat-card fav-tab" type="button" data-category="favorites">
-                ❤️ Избранное <span id="fav-count">(0)</span>
-            </button>
-        </div>
-
-        <h2 class="feed-title" id="page-title">Свежие объявления</h2>
-        <div class="grid" id="items-grid"></div>
-    </div>
-
-    <script>
-        const fallbackImg = "data:image/svg+xml;utf8," + encodeURIComponent(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260"><rect width="400" height="260" fill="#f0f2f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="16">Нет фото</text></svg>'
-        );
-
-        const items = [
-            {
-                id: 1,
-                title: "Студия с видом на море в Новом Бульваре",
-                price: "$450 / мес",
-                category: "realty",
-                city: "Батуми",
-                desc: "Уютная студия с балконом и современным ремонтом. Есть всё необходимое для жизни.",
-                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
-                tg: "https://t.me/"
-            },
-            {
-                id: 2,
-                title: "Toyota Prius 2018 в отличном состоянии",
-                price: "$8,500",
-                category: "auto",
-                city: "Батуми",
-                desc: "Гибрид, небольшой пробег, ухоженный салон.",
-                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
-                tg: "https://t.me/"
-            },
-            {
-                id: 3,
-                title: "MacBook Pro 16 M1 Pro 16/512GB",
-                price: "$1,300",
-                category: "tech",
-                city: "Кобулети",
-                desc: "Идеальное состояние, полный комплект. Батарея 92%.",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
-                tg: "https://t.me/"
-            }
-        ];
-
-        const favorites = new Set();
-        let selectedCategory = "all";
-
-        function safeUrl(url, defaultUrl) {
-            const trimmed = String(url || "").trim();
-            return /^https?:\/\//i.test(trimmed) ? trimmed : defaultUrl;
-        }
-
-        function createCardElement(item) {
-            const card = document.createElement("div");
-            card.className = "item-card";
-
-            const photoBox = document.createElement("div");
-            photoBox.className = "photo-box";
-
-            const img = document.createElement("img");
-            img.src = item.image ? safeUrl(item.image, fallbackImg) : fallbackImg;
-            img.alt = item.title;
-            img.addEventListener("error", function handleImgError() {
-                img.removeEventListener("error", handleImgError);
-                img.src = fallbackImg;
-            });
-
-            const favBtn = document.createElement("button");
-            favBtn.className = "fav-btn";
-            favBtn.type = "button";
-            const isFav = favorites.has(item.id);
-            favBtn.textContent = isFav ? "❤️" : "♡";
-            favBtn.setAttribute("aria-label", isFav ? "Убрать из избранного" : "Добавить в избранное");
-            favBtn.addEventListener("click", () => toggleFav(item.id));
-
-            photoBox.appendChild(img);
-            photoBox.appendChild(favBtn);
-
-            const titleEl = document.createElement("div");
-            titleEl.className = "item-title";
-            titleEl.textContent = item.title;
-
-            const priceEl = document.createElement("div");
-            priceEl.className = "item-price";
-            priceEl.textContent = item.price;
-
-            const descEl = document.createElement("div");
-            descEl.className = "item-desc";
-            descEl.textContent = item.desc;
-
-            const metaEl = document.createElement("div");
-            metaEl.className = "item-meta";
-            metaEl.textContent = item.city;
-
-            const tgLink = document.createElement("a");
-            tgLink.className = "tg-btn";
-            tgLink.href = safeUrl(item.tg, "https://t.me/");
-            tgLink.target = "_blank";
-            tgLink.rel = "noopener noreferrer";
-            tgLink.textContent = "Написать продавцу";
-
-            card.appendChild(photoBox);
-            card.appendChild(titleEl);
-            card.appendChild(priceEl);
-            card.appendChild(descEl);
-            card.appendChild(metaEl);
-            card.appendChild(tgLink);
-
-            return card;
-        }
-
-        function renderItems() {
-            const grid = document.getElementById("items-grid");
-            const searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
-            const cityQuery = document.getElementById("city-select").value;
-
-            // Изменение заголовка при переходе на вкладку Избранное
-            const pageTitle = document.getElementById("page-title");
-            if (selectedCategory === "favorites") {
-                pageTitle.textContent = "Избранные объявления";
-            } else {
-                pageTitle.textContent = "Свежие объявления";
-            }
-
-            const filtered = items.filter((item) => {
-                const matchesCat = selectedCategory === "favorites" 
-                    ? favorites.has(item.id) 
-                    : (selectedCategory === "all" || item.category === selectedCategory);
-                
-                const matchesCity = cityQuery === "all" || item.city === cityQuery;
-                const matchesSearch =
-                    !searchQuery ||
-                    item.title.toLowerCase().includes(searchQuery) ||
-                    item.desc.toLowerCase().includes(searchQuery);
-                
-                return matchesCat && matchesCity && matchesSearch;
-            });
-
-            grid.textContent = "";
-
-            if (filtered.length === 0) {
-                const empty = document.createElement("p");
-                empty.className = "empty-msg";
-                empty.textContent = selectedCategory === "favorites" 
-                    ? "У вас пока нет сохранённых объявлений" 
-                    : "Объявлений не найдено";
-                grid.appendChild(empty);
-                return;
-            }
-
-            const fragment = document.createDocumentFragment();
-            filtered.forEach((item) => {
-                fragment.appendChild(createCardElement(item));
-            });
-            grid.appendChild(fragment);
-        }
-
-        function toggleFav(id) {
-            if (favorites.has(id)) {
-                favorites.delete(id);
-            } else {
-                favorites.add(id);
-            }
-            document.getElementById("fav-count").textContent = `(${favorites.size})`;
-            renderItems();
-        }
-
-        function resetFilters(e) {
-            if (e) e.preventDefault();
-            selectedCategory = "all";
-            document.getElementById("search-input").value = "";
-            document.getElementById("city-select").value = "all";
-            document.querySelectorAll(".cat-card").forEach((btn) => {
-                btn.classList.toggle("active", btn.dataset.category === "all");
-            });
-            renderItems();
-        }
-
-        // Переход по кнопке «Разместить объявление»
-        document.getElementById("create-ad-btn").addEventListener("click", function () {
-            window.open("https://t.me/", "_blank", "noopener,noreferrer");
-        });
-
-        document.getElementById("brand-reset").addEventListener("click", resetFilters);
-        document.getElementById("search-input").addEventListener("input", renderItems);
-        document.getElementById("city-select").addEventListener("change", renderItems);
-        document.getElementById("search-btn").addEventListener("click", renderItems);
-
-        // Переключение категорий и вкладки Избранного
-        document.getElementById("categories-container").addEventListener("click", (e) => {
-            const btn = e.target.closest(".cat-card");
-            if (!btn) return;
-            document.querySelectorAll(".cat-card").forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
-            selectedCategory = btn.dataset.category;
-            renderItems();
-        });
-
-        renderItems();
-    </script>
-</body>
-</html>
-
