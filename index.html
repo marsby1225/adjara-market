@@ -469,13 +469,6 @@
         .card-city {
             font-size: 12px;
             color: #6b7280;
-            margin-bottom: 4px;
-        }
-
-        .card-user {
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
             margin-bottom: 8px;
         }
 
@@ -550,13 +543,13 @@
                         <div class="promo-title">Поднятие объявления в топ</div>
                         <div class="promo-price">от 15 ₾</div>
                         <div class="promo-desc">Объявление показывается выше обычных карточек в выбранном городе.</div>
-                        <a class="promo-link" href="https://t.me/marsby19?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BD%D1%8F%D1%82%D1%8C%20%D0%BE%D0%B1%D1%8A%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B2%20%D1%82%D0%BE%D0%BF%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Заказать за 15 ₾</a>
+                        <a class="promo-link" href="https://t.me/batumi_market?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BD%D1%8F%D1%82%D1%8C%20%D0%BE%D0%B1%D1%8A%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B2%20%D1%82%D0%BE%D0%BF%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Заказать за 15 ₾</a>
                     </div>
                     <div class="promo-card">
                         <div class="promo-title">Закреп / спецразмещение</div>
                         <div class="promo-price">от 40 ₾</div>
                         <div class="promo-desc">Продвижение недвижимости, авто, услуг или бизнеса в Батуми, Кобулети и Чакви.</div>
-                        <a class="promo-link" href="https://t.me/marsby19?text=%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%81%D1%82%D0%B8%D1%82%D1%8C%20%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%83%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Написать @marsby19</a>
+                        <a class="promo-link" href="https://t.me/batumi_market?text=%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%81%D1%82%D0%B8%D1%82%D1%8C%20%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%83%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Написать @batumi_market</a>
                     </div>
                 </div>
             </div>
@@ -600,8 +593,8 @@
                             <img id="f-photo-preview" class="photo-preview" alt="Предпросмотр фото">
                         </div>
                         <div class="field">
-                            <label for="f-tg">Telegram (@username)</label>
-                            <input type="text" id="f-tg" value="@marsby19" placeholder="@marsby19">
+                            <label for="f-tg">Ваш username</label>
+                            <input type="text" id="f-tg" value="@batumi_market" placeholder="@ваш_username">
                         </div>
                     </div>
                     <div class="field">
@@ -638,7 +631,7 @@
     </main>
 
     <script>
-        var DEFAULT_USERNAME = "marsby19";
+        var DEFAULT_USERNAME = "batumi_market";
         var DEFAULT_TG = "https://t.me/" + DEFAULT_USERNAME;
         var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
 
@@ -877,23 +870,18 @@
                     c.className = "card-city";
                     c.textContent = item.city;
 
-                    var userBadge = document.createElement("div");
-                    userBadge.className = "card-user";
-                    userBadge.textContent = "Контакт: @" + sellerUser;
-
                     var link = document.createElement("a");
                     link.className = "card-tg";
                     link.href = cleanTgUrl(item.tg, sellerUser);
                     link.target = "_blank";
                     link.rel = "noopener noreferrer";
-                    link.textContent = "Написать @" + sellerUser;
+                    link.textContent = "Написать продавцу";
 
                     card.appendChild(wrap);
                     card.appendChild(t);
                     card.appendChild(pr);
                     card.appendChild(d);
                     card.appendChild(c);
-                    card.appendChild(userBadge);
                     card.appendChild(link);
 
                     grid.appendChild(card);
@@ -942,76 +930,3 @@
                 }
                 resetPhotoInput();
                 setPanel("panel-form", false);
-                return;
-            }
-            if (target.closest("#btn-toggle-ads") || target.closest("#btn-inline-ads")) {
-                setPanel("panel-ads");
-                return;
-            }
-            if (target.closest("#btn-close-ads")) {
-                setPanel("panel-ads", false);
-                return;
-            }
-            if (target.closest("#btn-reset")) {
-                e.preventDefault();
-                var sIn = document.getElementById("search-input");
-                var cSel = document.getElementById("city-select");
-                if (sIn) sIn.value = "";
-                if (cSel) cSel.value = "all";
-                selectTab("all");
-                return;
-            }
-            if (target.closest("#btn-search")) {
-                renderAds();
-                return;
-            }
-
-            var tabBtn = target.closest("#tabs-row .tab-btn");
-            if (tabBtn) {
-                var tab = tabBtn.getAttribute("data-tab");
-                if (tab) selectTab(tab);
-            }
-        });
-
-        var adForm = document.getElementById("ad-form");
-        if (adForm) {
-            adForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-                var titleVal = document.getElementById("f-title").value.trim();
-                if (!titleVal) return;
-
-                var numPrice = Number(document.getElementById("f-price").value);
-                var priceText = isFinite(numPrice) ? numPrice.toLocaleString("ru-RU") + " ₾" : "0 ₾";
-                var sellerUsername = normalizeUsername(document.getElementById("f-tg").value);
-                var tgUrl = "https://t.me/" + sellerUsername;
-
-                ads.unshift({
-                    id: Date.now(),
-                    title: titleVal,
-                    price: priceText,
-                    category: document.getElementById("f-category").value,
-                    city: document.getElementById("f-city").value,
-                    image: uploadedPhotoDataUrl || "",
-                    desc: document.getElementById("f-desc").value.trim() || "Без описания.",
-                    username: sellerUsername,
-                    tg: cleanTgUrl(tgUrl, sellerUsername)
-                });
-
-                adForm.reset();
-                var tgField = document.getElementById("f-tg");
-                if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
-                resetPhotoInput();
-                setPanel("panel-form", false);
-                renderAds();
-            });
-        }
-
-        var searchEl = document.getElementById("search-input");
-        var cityEl = document.getElementById("city-select");
-        if (searchEl) searchEl.addEventListener("input", renderAds);
-        if (cityEl) cityEl.addEventListener("change", renderAds);
-
-        renderAds();
-    </script>
-</body>
-</html>
