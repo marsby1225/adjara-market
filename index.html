@@ -413,3 +413,264 @@
         .form-group select:focus,
         .form-group textarea:focus {
             border-color: #00aaFF;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Верхняя панель -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-links">
+                <span>Батуми</span>
+                <span>Кобулети</span>
+                <span>Чакви</span>
+            </div>
+            <div class="top-actions">
+                <button class="btn-fav-top" id="fav-filter-btn">
+                    <span>♡</span> Избранное <span id="fav-count">(0)</span>
+                </button>
+                <button class="btn-create" onclick="openModal()">+ Разместить объявление</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основная шапка -->
+    <header class="main-header">
+        <div class="container header-row">
+            <a href="#" class="brand">
+                <div class="avito-dots">
+                    <span class="dot-1"></span>
+                    <span class="dot-2"></span>
+                    <span class="dot-3"></span>
+                    <span class="dot-4"></span>
+                </div>
+                Аджария Маркет
+            </a>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Поиск по объявлениям...">
+                <select id="city-select">
+                    <option value="all">Все города</option>
+                    <option value="Батуми">Батуми</option>
+                    <option value="Кобулети">Кобулети</option>
+                    <option value="Чакви">Чакви</option>
+                </select>
+                <button class="btn-search" onclick="applyFilters()">Найти</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Категории -->
+        <div class="categories-row" id="categories-container">
+            <button class="cat-card active" data-category="all">Все категории</button>
+            <button class="cat-card" data-category="realty">Недвижимость</button>
+            <button class="cat-card" data-category="auto">Авто</button>
+            <button class="cat-card" data-category="tech">Электроника</button>
+            <button class="cat-card" data-category="services">Услуги</button>
+            <button class="cat-card" data-category="personal">Личные вещи</button>
+        </div>
+
+        <!-- Рекламный баннер -->
+        <div class="promo-banner">
+            <span>Продавайте вещи и оказывайте услуги по всей Аджарии бесплатно!</span>
+            <a href="#" class="promo-link" onclick="openModal()">Подать объявление</a>
+        </div>
+
+        <!-- Заголовок и сетка -->
+        <h2 class="feed-title">Свежие объявления</h2>
+        <div class="grid" id="items-grid">
+            <!-- Объявления динамически подгружаются через JS -->
+        </div>
+    </div>
+
+    <!-- Модальное окно подачи объявления -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Новое объявление</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="add-item-form" onsubmit="handleCreateItem(event)">
+                <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="form-title" required placeholder="Например: Студия у моря">
+                </div>
+                <div class="form-group">
+                    <label>Цена ($)</label>
+                    <input type="number" id="form-price" required placeholder="500">
+                </div>
+                <div class="form-group">
+                    <label>Категория</label>
+                    <select id="form-category" required>
+                        <option value="realty">Недвижимость</option>
+                        <option value="auto">Авто</option>
+                        <option value="tech">Электроника</option>
+                        <option value="services">Услуги</option>
+                        <option value="personal">Личные вещи</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Город</label>
+                    <select id="form-city" required>
+                        <option value="Батуми">Батуми</option>
+                        <option value="Кобулети">Кобулети</option>
+                        <option value="Чакви">Чакви</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ссылка на фото</label>
+                    <input type="url" id="form-image" placeholder="https://images.unsplash.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="form-desc" rows="3" placeholder="Подробное описание..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Telegram для связи (@username)</label>
+                    <input type="text" id="form-tg" placeholder="@seller_name">
+                </div>
+                <button type="submit" class="btn-create" style="width: 100%; padding: 10px; font-size: 15px;">Опубликовать</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Исходные данные
+        let items = [
+            {
+                id: 1,
+                title: "Студия с видом на море в Новом Бульваре",
+                price: "$450 / мес",
+                category: "realty",
+                city: "Батуми",
+                desc: "Уютная студия с балконом и современным ремонтом. Есть всё необходимое для жизни.",
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+                tg: "https://t.me/"
+            },
+            {
+                id: 2,
+                title: "Toyota Prius 2018 в отличном состоянии",
+                price: "$8,500",
+                category: "auto",
+                city: "Батуми",
+                desc: "Гибрид, небольшой пробег, ухоженный салон. Без пробега по СНГ.",
+                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+                tg: "https://t.me/"
+            },
+            {
+                id: 3,
+                title: "MacBook Pro 16 M1 Pro 16/512GB",
+                price: "$1,300",
+                category: "tech",
+                city: "Кобулети",
+                desc: "Идеальное состояние, полный комплект. Батарея 92%.",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+                tg: "https://t.me/"
+            }
+        ];
+
+        let favorites = new Set();
+        let selectedCategory = 'all';
+        let showOnlyFavs = false;
+
+        function renderItems() {
+            const grid = document.getElementById('items-grid');
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const cityQuery = document.getElementById('city-select').value;
+
+            const filtered = items.filter(item => {
+                const matchesCat = selectedCategory === 'all' || item.category === selectedCategory;
+                const matchesCity = cityQuery === 'all' || item.city === cityQuery;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || item.desc.toLowerCase().includes(searchQuery);
+                const matchesFav = !showOnlyFavs || favorites.has(item.id);
+                return matchesCat && matchesCity && matchesSearch && matchesFav;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; color: #777; padding: 20px 0;">Объявлений не найдено</p>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="item-card">
+                    <div class="photo-box">
+                        <img src="${item.image || 'https://via.placeholder.com/300x200?text=Нет+фото'}" alt="${item.title}">
+                        <button class="fav-btn" onclick="toggleFav(${item.id})">
+                            ${favorites.has(item.id) ? '❤️' : '♡'}
+                        </button>
+                    </div>
+                    <div class="item-title">${item.title}</div>
+                    <div class="item-price">${item.price}</div>
+                    <div class="item-desc">${item.desc}</div>
+                    <div class="item-meta">${item.city}</div>
+                    <a href="${item.tg}" target="_blank" class="tg-btn">Написать продавцу</a>
+                </div>
+            `).join('');
+        }
+
+        function toggleFav(id) {
+            if (favorites.has(id)) {
+                favorites.delete(id);
+            } else {
+                favorites.add(id);
+            }
+            document.getElementById('fav-count').innerText = `(${favorites.size})`;
+            renderItems();
+        }
+
+        function applyFilters() {
+            renderItems();
+        }
+
+        // Категории
+        document.getElementById('categories-container').addEventListener('click', (e) => {
+            if (e.target.classList.contains('cat-card')) {
+                document.querySelectorAll('.cat-card').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                selectedCategory = e.target.dataset.category;
+                renderItems();
+            }
+        });
+
+        // Фильтр Избранного в шапке
+        document.getElementById('fav-filter-btn').addEventListener('click', function() {
+            showOnlyFavs = !showOnlyFavs;
+            this.classList.toggle('active', showOnlyFavs);
+            renderItems();
+        });
+
+        // Модальное окно
+        function openModal() {
+            document.getElementById('modal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('open');
+        }
+
+        function handleCreateItem(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                title: document.getElementById('form-title').value,
+                price: '$' + document.getElementById('form-price').value,
+                category: document.getElementById('form-category').value,
+                city: document.getElementById('form-city').value,
+                image: document.getElementById('form-image').value,
+                desc: document.getElementById('form-desc').value,
+                tg: 'https://t.me/' + document.getElementById('form-tg').value.replace('@', '')
+            };
+
+            items.unshift(newItem);
+            renderItems();
+            closeModal();
+            document.getElementById('add-item-form').reset();
+        }
+
+        // Первичная отрисовка
+        renderItems();
+    </script>
+</body>
+</html>
