@@ -69,7 +69,7 @@
         }
 
         .btn-create {
-            background: #00aaFF;
+            background: #00aaff;
             color: #ffffff;
             border: none;
             padding: 7px 14px;
@@ -126,7 +126,7 @@
             display: block;
         }
 
-        .dot-1 { background: #00aaFF; }
+        .dot-1 { background: #00aaff; }
         .dot-2 { background: #00d25b; }
         .dot-3 { background: #965eeb; }
         .dot-4 { background: #ff4053; }
@@ -136,7 +136,7 @@
             display: flex;
             flex: 1;
             min-width: 280px;
-            border: 2px solid #00aaFF;
+            border: 2px solid #00aaff;
             border-radius: 8px;
             overflow: hidden;
             background: #ffffff;
@@ -162,7 +162,7 @@
         }
 
         .btn-search {
-            background: #00aaFF;
+            background: #00aaff;
             color: #ffffff;
             border: none;
             padding: 0 22px;
@@ -202,7 +202,7 @@
 
         .cat-card.active {
             background: #e6f7ff;
-            border-color: #00aaFF;
+            border-color: #00aaff;
             color: #0077b3;
         }
 
@@ -412,13 +412,12 @@
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #00aaFF;
+            border-color: #00aaff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Верхняя панель -->
     <div class="top-bar">
         <div class="container top-bar-inner">
             <div class="top-links">
@@ -435,10 +434,9 @@
         </div>
     </div>
 
-    <!-- Основная шапка -->
     <header class="main-header">
         <div class="container header-row">
-            <a href="#" class="brand">
+            <a href="#" class="brand" onclick="resetFilters(event)">
                 <div class="avito-dots">
                     <span class="dot-1"></span>
                     <span class="dot-2"></span>
@@ -449,20 +447,19 @@
             </a>
 
             <div class="search-box">
-                <input type="text" id="search-input" placeholder="Поиск по объявлениям...">
-                <select id="city-select">
+                <input type="text" id="search-input" placeholder="Поиск по объявлениям..." oninput="renderItems()">
+                <select id="city-select" onchange="renderItems()">
                     <option value="all">Все города</option>
                     <option value="Батуми">Батуми</option>
                     <option value="Кобулети">Кобулети</option>
                     <option value="Чакви">Чакви</option>
                 </select>
-                <button class="btn-search" onclick="applyFilters()">Найти</button>
+                <button class="btn-search" onclick="renderItems()">Найти</button>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- Категории -->
         <div class="categories-row" id="categories-container">
             <button class="cat-card active" data-category="all">Все категории</button>
             <button class="cat-card" data-category="realty">Недвижимость</button>
@@ -472,20 +469,15 @@
             <button class="cat-card" data-category="personal">Личные вещи</button>
         </div>
 
-        <!-- Рекламный баннер -->
         <div class="promo-banner">
             <span>Продавайте вещи и оказывайте услуги по всей Аджарии бесплатно!</span>
-            <a href="#" class="promo-link" onclick="openModal()">Подать объявление</a>
+            <a href="#" class="promo-link" onclick="openModal(); return false;">Подать объявление</a>
         </div>
 
-        <!-- Заголовок и сетка -->
         <h2 class="feed-title">Свежие объявления</h2>
-        <div class="grid" id="items-grid">
-            <!-- Объявления динамически подгружаются через JS -->
-        </div>
+        <div class="grid" id="items-grid"></div>
     </div>
 
-    <!-- Модальное окно подачи объявления -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <div class="modal-header">
@@ -499,7 +491,7 @@
                 </div>
                 <div class="form-group">
                     <label>Цена ($)</label>
-                    <input type="number" id="form-price" required placeholder="500">
+                    <input type="number" id="form-price" required min="0" placeholder="500">
                 </div>
                 <div class="form-group">
                     <label>Категория</label>
@@ -537,7 +529,10 @@
     </div>
 
     <script>
-        // Исходные данные
+        const fallbackImg = "data:image/svg+xml;utf8," + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260"><rect width="400" height="260" fill="#f0f2f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="16">Нет фото</text></svg>'
+        );
+
         let items = [
             {
                 id: 1,
@@ -555,122 +550,10 @@
                 price: "$8,500",
                 category: "auto",
                 city: "Батуми",
-                desc: "Гибрид, небольшой пробег, ухоженный салон. Без пробега по СНГ.",
+                desc: "Гибрид, небольшой пробег, ухоженный салон.",
                 image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
                 tg: "https://t.me/"
             },
             {
                 id: 3,
-                title: "MacBook Pro 16 M1 Pro 16/512GB",
-                price: "$1,300",
-                category: "tech",
-                city: "Кобулети",
-                desc: "Идеальное состояние, полный комплект. Батарея 92%.",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
-                tg: "https://t.me/"
-            }
-        ];
-
-        let favorites = new Set();
-        let selectedCategory = 'all';
-        let showOnlyFavs = false;
-
-        function renderItems() {
-            const grid = document.getElementById('items-grid');
-            const searchQuery = document.getElementById('search-input').value.toLowerCase();
-            const cityQuery = document.getElementById('city-select').value;
-
-            const filtered = items.filter(item => {
-                const matchesCat = selectedCategory === 'all' || item.category === selectedCategory;
-                const matchesCity = cityQuery === 'all' || item.city === cityQuery;
-                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || item.desc.toLowerCase().includes(searchQuery);
-                const matchesFav = !showOnlyFavs || favorites.has(item.id);
-                return matchesCat && matchesCity && matchesSearch && matchesFav;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; color: #777; padding: 20px 0;">Объявлений не найдено</p>';
-                return;
-            }
-
-            grid.innerHTML = filtered.map(item => `
-                <div class="item-card">
-                    <div class="photo-box">
-                        <img src="${item.image || 'https://via.placeholder.com/300x200?text=Нет+фото'}" alt="${item.title}">
-                        <button class="fav-btn" onclick="toggleFav(${item.id})">
-                            ${favorites.has(item.id) ? '❤️' : '♡'}
-                        </button>
-                    </div>
-                    <div class="item-title">${item.title}</div>
-                    <div class="item-price">${item.price}</div>
-                    <div class="item-desc">${item.desc}</div>
-                    <div class="item-meta">${item.city}</div>
-                    <a href="${item.tg}" target="_blank" class="tg-btn">Написать продавцу</a>
-                </div>
-            `).join('');
-        }
-
-        function toggleFav(id) {
-            if (favorites.has(id)) {
-                favorites.delete(id);
-            } else {
-                favorites.add(id);
-            }
-            document.getElementById('fav-count').innerText = `(${favorites.size})`;
-            renderItems();
-        }
-
-        function applyFilters() {
-            renderItems();
-        }
-
-        // Категории
-        document.getElementById('categories-container').addEventListener('click', (e) => {
-            if (e.target.classList.contains('cat-card')) {
-                document.querySelectorAll('.cat-card').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                selectedCategory = e.target.dataset.category;
-                renderItems();
-            }
-        });
-
-        // Фильтр Избранного в шапке
-        document.getElementById('fav-filter-btn').addEventListener('click', function() {
-            showOnlyFavs = !showOnlyFavs;
-            this.classList.toggle('active', showOnlyFavs);
-            renderItems();
-        });
-
-        // Модальное окно
-        function openModal() {
-            document.getElementById('modal').classList.add('open');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('open');
-        }
-
-        function handleCreateItem(e) {
-            e.preventDefault();
-            const newItem = {
-                id: Date.now(),
-                title: document.getElementById('form-title').value,
-                price: '$' + document.getElementById('form-price').value,
-                category: document.getElementById('form-category').value,
-                city: document.getElementById('form-city').value,
-                image: document.getElementById('form-image').value,
-                desc: document.getElementById('form-desc').value,
-                tg: 'https://t.me/' + document.getElementById('form-tg').value.replace('@', '')
-            };
-
-            items.unshift(newItem);
-            renderItems();
-            closeModal();
-            document.getElementById('add-item-form').reset();
-        }
-
-        // Первичная отрисовка
-        renderItems();
-    </script>
-</body>
-</html>
+                title: "MacBook Pro 16 M1 Pro
