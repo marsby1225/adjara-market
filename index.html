@@ -36,12 +36,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .top-links {
             display: flex;
             gap: 16px;
             color: #cccccc;
+        }
+
+        .btn-ads-top {
+            background: transparent;
+            border: 1px solid #555555;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-ads-top:hover {
+            border-color: #00aaff;
+            color: #00aaff;
         }
 
         /* Основная шапка */
@@ -153,8 +172,8 @@
             background: #0095e0;
         }
 
-        /* Панель формы размещения объявления */
-        .ad-form-panel {
+        /* Выпадающие панели формы объявления и покупки рекламы */
+        .panel-box {
             display: none;
             background: #f8f9fb;
             border: 1px solid #e2e6ec;
@@ -163,23 +182,23 @@
             margin-top: 16px;
         }
 
-        .ad-form-panel.open {
+        .panel-box.open {
             display: block;
         }
 
-        .ad-form-header {
+        .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 14px;
         }
 
-        .ad-form-header h3 {
+        .panel-header h3 {
             font-size: 18px;
             font-weight: 700;
         }
 
-        .btn-close-form {
+        .btn-close-panel {
             background: transparent;
             border: none;
             font-size: 22px;
@@ -189,7 +208,7 @@
             padding: 2px 6px;
         }
 
-        .btn-close-form:hover {
+        .btn-close-panel:hover {
             color: #000000;
         }
 
@@ -270,6 +289,59 @@
 
         .btn-cancel-ad:hover {
             background: #dfe3ea;
+        }
+
+        /* Карточки форматов рекламы */
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .promo-card {
+            background: #ffffff;
+            border: 1px solid #e2e6ec;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .promo-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .promo-price {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0077ff;
+        }
+
+        .promo-desc {
+            font-size: 13px;
+            color: #555555;
+            margin-bottom: 6px;
+        }
+
+        .promo-link {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            background: #00aaff;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .promo-link:hover {
+            background: #0095e0;
         }
 
         /* Категории и вкладки */
@@ -443,6 +515,7 @@
                 <span>Кобулети</span>
                 <span>Чакви</span>
             </div>
+            <button class="btn-ads-top" id="open-ads-btn" type="button">Купить рекламу</button>
         </div>
     </div>
 
@@ -473,10 +546,33 @@
         </div>
 
         <div class="container">
-            <div class="ad-form-panel" id="ad-form-panel">
-                <div class="ad-form-header">
+            <!-- Панель покупки рекламы -->
+            <div class="panel-box" id="ads-panel">
+                <div class="panel-header">
+                    <h3>Реклама на Аджария Маркет</h3>
+                    <button class="btn-close-panel" id="close-ads-btn" type="button" aria-label="Закрыть">&times;</button>
+                </div>
+                <div class="promo-grid">
+                    <div class="promo-card">
+                        <div class="promo-title">Поднятие в топ ленты</div>
+                        <div class="promo-price">от $5</div>
+                        <div class="promo-desc">Закрепление объявления выше обычных в выбранном городе.</div>
+                        <a class="promo-link" id="promo-top-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Заказать в Telegram</a>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-title">Баннер / спецразмещение</div>
+                        <div class="promo-price">по договорённости</div>
+                        <div class="promo-desc">Продвижение бизнеса, недвижимости, авто или услуг в Аджарии.</div>
+                        <a class="promo-link" id="promo-banner-link" href="https://t.me/marsby19" target="_blank" rel="noopener noreferrer">Написать @marsby19</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Панель подачи объявления -->
+            <div class="panel-box" id="ad-form-panel">
+                <div class="panel-header">
                     <h3>Новое объявление</h3>
-                    <button class="btn-close-form" id="close-form-btn" type="button" aria-label="Закрыть форму">&times;</button>
+                    <button class="btn-close-panel" id="close-form-btn" type="button" aria-label="Закрыть форму">&times;</button>
                 </div>
                 <form id="new-ad-form">
                     <div class="ad-form-grid">
@@ -674,131 +770,4 @@
 
                 if (!grid) return;
 
-                const searchQuery = searchInput ? searchInput.value.trim().toLowerCase() : "";
-                const cityQuery = citySelect ? citySelect.value : "all";
-
-                if (pageTitle) {
-                    pageTitle.textContent = selectedCategory === "favorites"
-                        ? "Избранные объявления"
-                        : "Свежие объявления";
-                }
-
-                const filtered = items.filter((item) => {
-                    const matchesCat = selectedCategory === "favorites"
-                        ? favorites.has(item.id)
-                        : (selectedCategory === "all" || item.category === selectedCategory);
-
-                    const matchesCity = cityQuery === "all" || item.city === cityQuery;
-                    const matchesSearch =
-                        !searchQuery ||
-                        item.title.toLowerCase().includes(searchQuery) ||
-                        item.desc.toLowerCase().includes(searchQuery);
-
-                    return matchesCat && matchesCity && matchesSearch;
-                });
-
-                grid.textContent = "";
-
-                if (filtered.length === 0) {
-                    const empty = document.createElement("p");
-                    empty.className = "empty-msg";
-                    empty.textContent = selectedCategory === "favorites"
-                        ? "У вас пока нет сохранённых объявлений"
-                        : "Объявлений не найдено";
-                    grid.appendChild(empty);
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
-                filtered.forEach((item) => {
-                    fragment.appendChild(createCardElement(item));
-                });
-                grid.appendChild(fragment);
-            }
-
-            function resetFilters(e) {
-                if (e) e.preventDefault();
-                selectedCategory = "all";
-                const searchInput = document.getElementById("search-input");
-                const citySelect = document.getElementById("city-select");
-                if (searchInput) searchInput.value = "";
-                if (citySelect) citySelect.value = "all";
-                document.querySelectorAll(".cat-card").forEach((btn) => {
-                    btn.classList.toggle("active", btn.dataset.category === "all");
-                });
-                renderItems();
-            }
-
-            const formPanel = document.getElementById("ad-form-panel");
-            const newAdForm = document.getElementById("new-ad-form");
-
-            function toggleFormPanel(forceState) {
-                if (!formPanel) return;
-                const nextState = typeof forceState === "boolean"
-                    ? forceState
-                    : !formPanel.classList.contains("open");
-                formPanel.classList.toggle("open", nextState);
-                if (nextState) {
-                    const titleInput = document.getElementById("ad-title");
-                    if (titleInput) titleInput.focus();
-                }
-            }
-
-            document.getElementById("create-ad-btn").addEventListener("click", () => toggleFormPanel());
-            document.getElementById("close-form-btn").addEventListener("click", () => toggleFormPanel(false));
-            document.getElementById("cancel-form-btn").addEventListener("click", () => {
-                if (newAdForm) newAdForm.reset();
-                toggleFormPanel(false);
-            });
-
-            if (newAdForm) {
-                newAdForm.addEventListener("submit", function (e) {
-                    e.preventDefault();
-                    const titleEl = document.getElementById("ad-title");
-                    const title = titleEl ? titleEl.value.trim() : "";
-                    if (!title) return;
-
-                    const priceVal = Number(document.getElementById("ad-price").value);
-                    const price = Number.isFinite(priceVal)
-                        ? "$" + priceVal.toLocaleString("en-US")
-                        : "$0";
-
-                    const rawTg = document.getElementById("ad-tg").value.trim().replace(/^@+/, "");
-
-                    const newItem = {
-                        id: Date.now(),
-                        title,
-                        price,
-                        category: document.getElementById("ad-category").value,
-                        city: document.getElementById("ad-city").value,
-                        image: document.getElementById("ad-image").value.trim(),
-                        desc: document.getElementById("ad-desc").value.trim() || "Без описания.",
-                        tg: rawTg ? "https://t.me/" + encodeURIComponent(rawTg) : DEFAULT_TG_URL
-                    };
-
-                    items.unshift(newItem);
-                    renderItems();
-                    newAdForm.reset();
-                    toggleFormPanel(false);
-                });
-            }
-
-            document.getElementById("brand-reset").addEventListener("click", resetFilters);
-            document.getElementById("search-input").addEventListener("input", renderItems);
-            document.getElementById("city-select").addEventListener("change", renderItems);
-            document.getElementById("search-btn").addEventListener("click", renderItems);
-
-            document.getElementById("categories-container").addEventListener("click", (e) => {
-                const btn = e.target.closest(".cat-card");
-                if (!btn) return;
-                document.querySelectorAll(".cat-card").forEach((b) => b.classList.remove("active"));
-                btn.classList.add("active");
-                selectedCategory = btn.dataset.category;
-                renderItems();
-            });
-
-            renderItems();
-        })();
-    </script>
-</body>
-</html>
+                const searchQuery =
