@@ -223,3 +223,582 @@
             color: #000000;
             outline: none;
         }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: #00aaff;
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 70px;
+            margin-bottom: 12px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-submit-ad {
+            background: #00d25b;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-submit-ad:hover {
+            background: #00b84f;
+        }
+
+        .btn-cancel-ad {
+            background: #eceef2;
+            color: #222222;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel-ad:hover {
+            background: #dfe3ea;
+        }
+
+        /* Категории и вкладки */
+        .categories-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 16px 0;
+            align-items: center;
+        }
+
+        .cat-card {
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.15s;
+        }
+
+        .cat-card:hover {
+            background: #ebebeb;
+        }
+
+        .cat-card.active {
+            background: #e6f7ff;
+            border-color: #00aaff;
+            color: #0077b3;
+        }
+
+        .cat-card.fav-tab {
+            background: #fff0f0;
+            color: #d9363e;
+            margin-left: auto;
+        }
+
+        .cat-card.fav-tab:hover {
+            background: #ffe5e5;
+        }
+
+        .cat-card.fav-tab.active {
+            background: #ff4d4f;
+            color: #ffffff;
+            border-color: #d9363e;
+        }
+
+        .feed-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        /* Сетка объявлений */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px 16px;
+            margin-bottom: 50px;
+        }
+
+        .item-card {
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-box {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f5f5f5;
+            margin-bottom: 8px;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0077ff;
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .item-title:hover {
+            color: #ff4053;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: #555555;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: #888888;
+            margin-bottom: 8px;
+        }
+
+        .tg-btn {
+            display: inline-block;
+            text-align: center;
+            background: #00d25b;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .tg-btn:hover {
+            background: #00b84f;
+        }
+
+        .empty-msg {
+            grid-column: 1 / -1;
+            color: #777777;
+            padding: 30px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-links">
+                <span>Батуми</span>
+                <span>Кобулети</span>
+                <span>Чакви</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-row">
+            <a href="#" class="brand" id="brand-reset">
+                <div class="avito-dots">
+                    <span class="dot-1"></span>
+                    <span class="dot-2"></span>
+                    <span class="dot-3"></span>
+                    <span class="dot-4"></span>
+                </div>
+                Аджария Маркет
+            </a>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Поиск по объявлениям...">
+                <select id="city-select">
+                    <option value="all">Все города</option>
+                    <option value="Батуми">Батуми</option>
+                    <option value="Кобулети">Кобулети</option>
+                    <option value="Чакви">Чакви</option>
+                </select>
+                <button class="btn-search" id="search-btn" type="button">Найти</button>
+            </div>
+
+            <button class="btn-create-main" id="create-ad-btn" type="button">+ Разместить объявление</button>
+        </div>
+
+        <div class="container">
+            <div class="ad-form-panel" id="ad-form-panel">
+                <div class="ad-form-header">
+                    <h3>Новое объявление</h3>
+                    <button class="btn-close-form" id="close-form-btn" type="button" aria-label="Закрыть форму">&times;</button>
+                </div>
+                <form id="new-ad-form">
+                    <div class="ad-form-grid">
+                        <div class="field">
+                            <label for="ad-title">Название *</label>
+                            <input type="text" id="ad-title" required placeholder="Например: Квартира у моря">
+                        </div>
+                        <div class="field">
+                            <label for="ad-price">Цена ($) *</label>
+                            <input type="number" id="ad-price" required min="0" step="any" placeholder="500">
+                        </div>
+                        <div class="field">
+                            <label for="ad-category">Категория</label>
+                            <select id="ad-category">
+                                <option value="realty">Недвижимость</option>
+                                <option value="auto">Авто</option>
+                                <option value="tech">Электроника</option>
+                                <option value="services">Услуги</option>
+                                <option value="personal">Личные вещи</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="ad-city">Город</label>
+                            <select id="ad-city">
+                                <option value="Батуми">Батуми</option>
+                                <option value="Кобулети">Кобулети</option>
+                                <option value="Чакви">Чакви</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="ad-image">Ссылка на фото</label>
+                            <input type="text" id="ad-image" placeholder="https://...">
+                        </div>
+                        <div class="field">
+                            <label for="ad-tg">Telegram (@username)</label>
+                            <input type="text" id="ad-tg" placeholder="@marsby19">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="ad-desc">Описание</label>
+                        <textarea id="ad-desc" placeholder="Состояние, условия, район..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-submit-ad" type="submit">Опубликовать объявление</button>
+                        <button class="btn-cancel-ad" id="cancel-form-btn" type="button">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="categories-row" id="categories-container">
+            <button class="cat-card active" type="button" data-category="all">Все категории</button>
+            <button class="cat-card" type="button" data-category="realty">Недвижимость</button>
+            <button class="cat-card" type="button" data-category="auto">Авто</button>
+            <button class="cat-card" type="button" data-category="tech">Электроника</button>
+            <button class="cat-card" type="button" data-category="services">Услуги</button>
+            <button class="cat-card" type="button" data-category="personal">Личные вещи</button>
+
+            <button class="cat-card fav-tab" type="button" data-category="favorites">
+                ❤️ Избранное <span id="fav-count">(0)</span>
+            </button>
+        </div>
+
+        <h2 class="feed-title" id="page-title">Свежие объявления</h2>
+        <div class="grid" id="items-grid"></div>
+    </div>
+
+    <script>
+        (function () {
+            const DEFAULT_TG_USERNAME = "marsby19";
+            const DEFAULT_TG_URL = "https://t.me/" + DEFAULT_TG_USERNAME;
+
+            const fallbackImg = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260"><rect width="400" height="260" fill="#f0f2f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="16">Нет фото</text></svg>'
+            );
+
+            const items = [
+                {
+                    id: 1,
+                    title: "Студия с видом на море в Новом Бульваре",
+                    price: "$450 / мес",
+                    category: "realty",
+                    city: "Батуми",
+                    desc: "Уютная студия с балконом и современным ремонтом. Есть всё необходимое для жизни.",
+                    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+                    tg: DEFAULT_TG_URL
+                },
+                {
+                    id: 2,
+                    title: "Toyota Prius 2018 в отличном состоянии",
+                    price: "$8,500",
+                    category: "auto",
+                    city: "Батуми",
+                    desc: "Гибрид, небольшой пробег, ухоженный салон.",
+                    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+                    tg: DEFAULT_TG_URL
+                },
+                {
+                    id: 3,
+                    title: "MacBook Pro 16 M1 Pro 16/512GB",
+                    price: "$1,300",
+                    category: "tech",
+                    city: "Кобулети",
+                    desc: "Идеальное состояние, полный комплект. Батарея 92%.",
+                    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+                    tg: DEFAULT_TG_URL
+                }
+            ];
+
+            const favorites = new Set();
+            let selectedCategory = "all";
+
+            function safeUrl(url, defaultUrl) {
+                const trimmed = String(url || "").trim();
+                return /^https?:\/\//i.test(trimmed) ? trimmed : defaultUrl;
+            }
+
+            function toggleFav(id) {
+                if (favorites.has(id)) {
+                    favorites.delete(id);
+                } else {
+                    favorites.add(id);
+                }
+                const countEl = document.getElementById("fav-count");
+                if (countEl) countEl.textContent = `(${favorites.size})`;
+                renderItems();
+            }
+
+            function createCardElement(item) {
+                const card = document.createElement("div");
+                card.className = "item-card";
+
+                const photoBox = document.createElement("div");
+                photoBox.className = "photo-box";
+
+                const img = document.createElement("img");
+                img.src = item.image ? safeUrl(item.image, fallbackImg) : fallbackImg;
+                img.alt = item.title;
+                img.addEventListener("error", function handleImgError() {
+                    img.removeEventListener("error", handleImgError);
+                    img.src = fallbackImg;
+                });
+
+                const favBtn = document.createElement("button");
+                favBtn.className = "fav-btn";
+                favBtn.type = "button";
+                const isFav = favorites.has(item.id);
+                favBtn.textContent = isFav ? "❤️" : "♡";
+                favBtn.setAttribute("aria-label", isFav ? "Убрать из избранного" : "Добавить в избранное");
+                favBtn.addEventListener("click", () => toggleFav(item.id));
+
+                photoBox.appendChild(img);
+                photoBox.appendChild(favBtn);
+
+                const titleEl = document.createElement("div");
+                titleEl.className = "item-title";
+                titleEl.textContent = item.title;
+
+                const priceEl = document.createElement("div");
+                priceEl.className = "item-price";
+                priceEl.textContent = item.price;
+
+                const descEl = document.createElement("div");
+                descEl.className = "item-desc";
+                descEl.textContent = item.desc;
+
+                const metaEl = document.createElement("div");
+                metaEl.className = "item-meta";
+                metaEl.textContent = item.city;
+
+                const tgLink = document.createElement("a");
+                tgLink.className = "tg-btn";
+                tgLink.href = safeUrl(item.tg, DEFAULT_TG_URL);
+                tgLink.target = "_blank";
+                tgLink.rel = "noopener noreferrer";
+                tgLink.textContent = "Написать продавцу";
+
+                card.appendChild(photoBox);
+                card.appendChild(titleEl);
+                card.appendChild(priceEl);
+                card.appendChild(descEl);
+                card.appendChild(metaEl);
+                card.appendChild(tgLink);
+
+                return card;
+            }
+
+            function renderItems() {
+                const grid = document.getElementById("items-grid");
+                const searchInput = document.getElementById("search-input");
+                const citySelect = document.getElementById("city-select");
+                const pageTitle = document.getElementById("page-title");
+
+                if (!grid) return;
+
+                const searchQuery = searchInput ? searchInput.value.trim().toLowerCase() : "";
+                const cityQuery = citySelect ? citySelect.value : "all";
+
+                if (pageTitle) {
+                    pageTitle.textContent = selectedCategory === "favorites"
+                        ? "Избранные объявления"
+                        : "Свежие объявления";
+                }
+
+                const filtered = items.filter((item) => {
+                    const matchesCat = selectedCategory === "favorites"
+                        ? favorites.has(item.id)
+                        : (selectedCategory === "all" || item.category === selectedCategory);
+
+                    const matchesCity = cityQuery === "all" || item.city === cityQuery;
+                    const matchesSearch =
+                        !searchQuery ||
+                        item.title.toLowerCase().includes(searchQuery) ||
+                        item.desc.toLowerCase().includes(searchQuery);
+
+                    return matchesCat && matchesCity && matchesSearch;
+                });
+
+                grid.textContent = "";
+
+                if (filtered.length === 0) {
+                    const empty = document.createElement("p");
+                    empty.className = "empty-msg";
+                    empty.textContent = selectedCategory === "favorites"
+                        ? "У вас пока нет сохранённых объявлений"
+                        : "Объявлений не найдено";
+                    grid.appendChild(empty);
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                filtered.forEach((item) => {
+                    fragment.appendChild(createCardElement(item));
+                });
+                grid.appendChild(fragment);
+            }
+
+            function resetFilters(e) {
+                if (e) e.preventDefault();
+                selectedCategory = "all";
+                const searchInput = document.getElementById("search-input");
+                const citySelect = document.getElementById("city-select");
+                if (searchInput) searchInput.value = "";
+                if (citySelect) citySelect.value = "all";
+                document.querySelectorAll(".cat-card").forEach((btn) => {
+                    btn.classList.toggle("active", btn.dataset.category === "all");
+                });
+                renderItems();
+            }
+
+            const formPanel = document.getElementById("ad-form-panel");
+            const newAdForm = document.getElementById("new-ad-form");
+
+            function toggleFormPanel(forceState) {
+                if (!formPanel) return;
+                const nextState = typeof forceState === "boolean"
+                    ? forceState
+                    : !formPanel.classList.contains("open");
+                formPanel.classList.toggle("open", nextState);
+                if (nextState) {
+                    const titleInput = document.getElementById("ad-title");
+                    if (titleInput) titleInput.focus();
+                }
+            }
+
+            document.getElementById("create-ad-btn").addEventListener("click", () => toggleFormPanel());
+            document.getElementById("close-form-btn").addEventListener("click", () => toggleFormPanel(false));
+            document.getElementById("cancel-form-btn").addEventListener("click", () => {
+                if (newAdForm) newAdForm.reset();
+                toggleFormPanel(false);
+            });
+
+            if (newAdForm) {
+                newAdForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const titleEl = document.getElementById("ad-title");
+                    const title = titleEl ? titleEl.value.trim() : "";
+                    if (!title) return;
+
+                    const priceVal = Number(document.getElementById("ad-price").value);
+                    const price = Number.isFinite(priceVal)
+                        ? "$" + priceVal.toLocaleString("en-US")
+                        : "$0";
+
+                    const rawTg = document.getElementById("ad-tg").value.trim().replace(/^@+/, "");
+
+                    const newItem = {
+                        id: Date.now(),
+                        title,
+                        price,
+                        category: document.getElementById("ad-category").value,
+                        city: document.getElementById("ad-city").value,
+                        image: document.getElementById("ad-image").value.trim(),
+                        desc: document.getElementById("ad-desc").value.trim() || "Без описания.",
+                        tg: rawTg ? "https://t.me/" + encodeURIComponent(rawTg) : DEFAULT_TG_URL
+                    };
+
+                    items.unshift(newItem);
+                    renderItems();
+                    newAdForm.reset();
+                    toggleFormPanel(false);
+                });
+            }
+
+            document.getElementById("brand-reset").addEventListener("click", resetFilters);
+            document.getElementById("search-input").addEventListener("input", renderItems);
+            document.getElementById("city-select").addEventListener("change", renderItems);
+            document.getElementById("search-btn").addEventListener("click", renderItems);
+
+            document.getElementById("categories-container").addEventListener("click", (e) => {
+                const btn = e.target.closest(".cat-card");
+                if (!btn) return;
+                document.querySelectorAll(".cat-card").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                selectedCategory = btn.dataset.category;
+                renderItems();
+            });
+
+            renderItems();
+        })();
+    </script>
+</body>
+</html>
