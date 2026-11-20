@@ -24,7 +24,7 @@
             padding: 0 16px;
         }
 
-        /* Верхняя панель в стиле Авито */
+        /* Верхняя панель */
         .top-bar {
             background: #292929;
             color: #ffffff;
@@ -68,23 +68,7 @@
             font-weight: 700;
         }
 
-        .btn-create {
-            background: #00aaff;
-            color: #ffffff;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-
-        .btn-create:hover {
-            background: #0095e0;
-        }
-
-        /* Основная шапка с логотипом и поиском */
+        /* Основная шапка */
         .main-header {
             padding: 16px 0 12px;
             border-bottom: 1px solid #f0f0f0;
@@ -131,7 +115,7 @@
         .dot-3 { background: #965eeb; }
         .dot-4 { background: #ff4053; }
 
-        /* Фирменная синяя рамка поиска Авито */
+        /* Поиск */
         .search-box {
             display: flex;
             flex: 1;
@@ -175,7 +159,7 @@
             background: #0095e0;
         }
 
-        /* Категории-плитки */
+        /* Категории */
         .categories-row {
             display: flex;
             gap: 10px;
@@ -206,42 +190,13 @@
             color: #0077b3;
         }
 
-        /* Рекламный баннер */
-        .promo-banner {
-            background: #f2f9ff;
-            border: 1px solid #cce9ff;
-            border-radius: 10px;
-            padding: 12px 18px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .promo-banner span {
-            font-size: 14px;
-            color: #1f2937;
-        }
-
-        .promo-link {
-            background: #00d25b;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
         .feed-title {
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 16px;
         }
 
-        /* Сетка объявлений в стиле Авито */
+        /* Сетка объявлений */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -253,7 +208,6 @@
             background: #ffffff;
             display: flex;
             flex-direction: column;
-            transition: opacity 0.15s;
         }
 
         .photo-box {
@@ -293,7 +247,6 @@
             font-size: 16px;
             font-weight: 500;
             color: #0077ff;
-            text-decoration: none;
             margin-bottom: 4px;
             cursor: pointer;
         }
@@ -342,77 +295,10 @@
             background: #00b84f;
         }
 
-        /* Модальное окно подачи объявления */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            z-index: 200;
-        }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
-        .modal {
-            background: #ffffff;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 480px;
-            padding: 22px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .modal-header h3 {
-            font-size: 20px;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
+        .empty-msg {
+            grid-column: 1 / -1;
             color: #777777;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1px solid #d9d9d9;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #00aaff;
+            padding: 20px 0;
         }
     </style>
 </head>
@@ -426,17 +312,16 @@
                 <span>Чакви</span>
             </div>
             <div class="top-actions">
-                <button class="btn-fav-top" id="fav-filter-btn">
+                <button class="btn-fav-top" id="fav-filter-btn" type="button">
                     <span>♡</span> Избранное <span id="fav-count">(0)</span>
                 </button>
-                <button class="btn-create" onclick="openModal()">+ Разместить объявление</button>
             </div>
         </div>
     </div>
 
     <header class="main-header">
         <div class="container header-row">
-            <a href="#" class="brand" onclick="resetFilters(event)">
+            <a href="#" class="brand" id="brand-reset">
                 <div class="avito-dots">
                     <span class="dot-1"></span>
                     <span class="dot-2"></span>
@@ -447,85 +332,30 @@
             </a>
 
             <div class="search-box">
-                <input type="text" id="search-input" placeholder="Поиск по объявлениям..." oninput="renderItems()">
-                <select id="city-select" onchange="renderItems()">
+                <input type="text" id="search-input" placeholder="Поиск по объявлениям...">
+                <select id="city-select">
                     <option value="all">Все города</option>
                     <option value="Батуми">Батуми</option>
                     <option value="Кобулети">Кобулети</option>
                     <option value="Чакви">Чакви</option>
                 </select>
-                <button class="btn-search" onclick="renderItems()">Найти</button>
+                <button class="btn-search" id="search-btn" type="button">Найти</button>
             </div>
         </div>
     </header>
 
     <div class="container">
         <div class="categories-row" id="categories-container">
-            <button class="cat-card active" data-category="all">Все категории</button>
-            <button class="cat-card" data-category="realty">Недвижимость</button>
-            <button class="cat-card" data-category="auto">Авто</button>
-            <button class="cat-card" data-category="tech">Электроника</button>
-            <button class="cat-card" data-category="services">Услуги</button>
-            <button class="cat-card" data-category="personal">Личные вещи</button>
-        </div>
-
-        <div class="promo-banner">
-            <span>Продавайте вещи и оказывайте услуги по всей Аджарии бесплатно!</span>
-            <a href="#" class="promo-link" onclick="openModal(); return false;">Подать объявление</a>
+            <button class="cat-card active" type="button" data-category="all">Все категории</button>
+            <button class="cat-card" type="button" data-category="realty">Недвижимость</button>
+            <button class="cat-card" type="button" data-category="auto">Авто</button>
+            <button class="cat-card" type="button" data-category="tech">Электроника</button>
+            <button class="cat-card" type="button" data-category="services">Услуги</button>
+            <button class="cat-card" type="button" data-category="personal">Личные вещи</button>
         </div>
 
         <h2 class="feed-title">Свежие объявления</h2>
         <div class="grid" id="items-grid"></div>
-    </div>
-
-    <div class="modal-overlay" id="modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Новое объявление</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <form id="add-item-form" onsubmit="handleCreateItem(event)">
-                <div class="form-group">
-                    <label>Название</label>
-                    <input type="text" id="form-title" required placeholder="Например: Студия у моря">
-                </div>
-                <div class="form-group">
-                    <label>Цена ($)</label>
-                    <input type="number" id="form-price" required min="0" placeholder="500">
-                </div>
-                <div class="form-group">
-                    <label>Категория</label>
-                    <select id="form-category" required>
-                        <option value="realty">Недвижимость</option>
-                        <option value="auto">Авто</option>
-                        <option value="tech">Электроника</option>
-                        <option value="services">Услуги</option>
-                        <option value="personal">Личные вещи</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Город</label>
-                    <select id="form-city" required>
-                        <option value="Батуми">Батуми</option>
-                        <option value="Кобулети">Кобулети</option>
-                        <option value="Чакви">Чакви</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Ссылка на фото</label>
-                    <input type="url" id="form-image" placeholder="https://images.unsplash.com/...">
-                </div>
-                <div class="form-group">
-                    <label>Описание</label>
-                    <textarea id="form-desc" rows="3" placeholder="Подробное описание..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Telegram для связи (@username)</label>
-                    <input type="text" id="form-tg" placeholder="@seller_name">
-                </div>
-                <button type="submit" class="btn-create" style="width: 100%; padding: 10px; font-size: 15px;">Опубликовать</button>
-            </form>
-        </div>
     </div>
 
     <script>
@@ -533,7 +363,7 @@
             '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260" viewBox="0 0 400 260"><rect width="400" height="260" fill="#f0f2f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#888888" font-family="Arial, sans-serif" font-size="16">Нет фото</text></svg>'
         );
 
-        let items = [
+        const items = [
             {
                 id: 1,
                 title: "Студия с видом на море в Новом Бульваре",
@@ -556,4 +386,161 @@
             },
             {
                 id: 3,
-                title: "MacBook Pro 16 M1 Pro
+                title: "MacBook Pro 16 M1 Pro 16/512GB",
+                price: "$1,300",
+                category: "tech",
+                city: "Кобулети",
+                desc: "Идеальное состояние, полный комплект. Батарея 92%.",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+                tg: "https://t.me/"
+            }
+        ];
+
+        const favorites = new Set();
+        let selectedCategory = "all";
+        let showOnlyFavs = false;
+
+        function safeUrl(url, defaultUrl) {
+            const trimmed = String(url || "").trim();
+            return /^https?:\/\//i.test(trimmed) ? trimmed : defaultUrl;
+        }
+
+        function createCardElement(item) {
+            const card = document.createElement("div");
+            card.className = "item-card";
+
+            const photoBox = document.createElement("div");
+            photoBox.className = "photo-box";
+
+            const img = document.createElement("img");
+            img.src = item.image ? safeUrl(item.image, fallbackImg) : fallbackImg;
+            img.alt = item.title;
+            img.addEventListener("error", function handleImgError() {
+                img.removeEventListener("error", handleImgError);
+                img.src = fallbackImg;
+            });
+
+            const favBtn = document.createElement("button");
+            favBtn.className = "fav-btn";
+            favBtn.type = "button";
+            const isFav = favorites.has(item.id);
+            favBtn.textContent = isFav ? "❤️" : "♡";
+            favBtn.setAttribute("aria-label", isFav ? "Убрать из избранного" : "Добавить в избранное");
+            favBtn.addEventListener("click", () => toggleFav(item.id));
+
+            photoBox.appendChild(img);
+            photoBox.appendChild(favBtn);
+
+            const titleEl = document.createElement("div");
+            titleEl.className = "item-title";
+            titleEl.textContent = item.title;
+
+            const priceEl = document.createElement("div");
+            priceEl.className = "item-price";
+            priceEl.textContent = item.price;
+
+            const descEl = document.createElement("div");
+            descEl.className = "item-desc";
+            descEl.textContent = item.desc;
+
+            const metaEl = document.createElement("div");
+            metaEl.className = "item-meta";
+            metaEl.textContent = item.city;
+
+            const tgLink = document.createElement("a");
+            tgLink.className = "tg-btn";
+            tgLink.href = safeUrl(item.tg, "https://t.me/");
+            tgLink.target = "_blank";
+            tgLink.rel = "noopener noreferrer";
+            tgLink.textContent = "Написать продавцу";
+
+            card.appendChild(photoBox);
+            card.appendChild(titleEl);
+            card.appendChild(priceEl);
+            card.appendChild(descEl);
+            card.appendChild(metaEl);
+            card.appendChild(tgLink);
+
+            return card;
+        }
+
+        function renderItems() {
+            const grid = document.getElementById("items-grid");
+            const searchQuery = document.getElementById("search-input").value.trim().toLowerCase();
+            const cityQuery = document.getElementById("city-select").value;
+
+            const filtered = items.filter((item) => {
+                const matchesCat = selectedCategory === "all" || item.category === selectedCategory;
+                const matchesCity = cityQuery === "all" || item.city === cityQuery;
+                const matchesSearch =
+                    !searchQuery ||
+                    item.title.toLowerCase().includes(searchQuery) ||
+                    item.desc.toLowerCase().includes(searchQuery);
+                const matchesFav = !showOnlyFavs || favorites.has(item.id);
+                return matchesCat && matchesCity && matchesSearch && matchesFav;
+            });
+
+            grid.textContent = "";
+
+            if (filtered.length === 0) {
+                const empty = document.createElement("p");
+                empty.className = "empty-msg";
+                empty.textContent = "Объявлений не найдено";
+                grid.appendChild(empty);
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            filtered.forEach((item) => {
+                fragment.appendChild(createCardElement(item));
+            });
+            grid.appendChild(fragment);
+        }
+
+        function toggleFav(id) {
+            if (favorites.has(id)) {
+                favorites.delete(id);
+            } else {
+                favorites.add(id);
+            }
+            document.getElementById("fav-count").textContent = `(${favorites.size})`;
+            renderItems();
+        }
+
+        function resetFilters(e) {
+            if (e) e.preventDefault();
+            selectedCategory = "all";
+            showOnlyFavs = false;
+            document.getElementById("search-input").value = "";
+            document.getElementById("city-select").value = "all";
+            document.getElementById("fav-filter-btn").classList.remove("active");
+            document.querySelectorAll(".cat-card").forEach((btn) => {
+                btn.classList.toggle("active", btn.dataset.category === "all");
+            });
+            renderItems();
+        }
+
+        document.getElementById("brand-reset").addEventListener("click", resetFilters);
+        document.getElementById("search-input").addEventListener("input", renderItems);
+        document.getElementById("city-select").addEventListener("change", renderItems);
+        document.getElementById("search-btn").addEventListener("click", renderItems);
+
+        document.getElementById("categories-container").addEventListener("click", (e) => {
+            const btn = e.target.closest(".cat-card");
+            if (!btn) return;
+            document.querySelectorAll(".cat-card").forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            selectedCategory = btn.dataset.category;
+            renderItems();
+        });
+
+        document.getElementById("fav-filter-btn").addEventListener("click", function () {
+            showOnlyFavs = !showOnlyFavs;
+            this.classList.toggle("active", showOnlyFavs);
+            renderItems();
+        });
+
+        renderItems();
+    </script>
+</body>
+</html>
