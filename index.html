@@ -549,7 +549,7 @@
                         <div class="promo-title">Закреп / спецразмещение</div>
                         <div class="promo-price">от 40 ₾</div>
                         <div class="promo-desc">Продвижение недвижимости, авто, услуг или бизнеса в Батуми, Кобулети и Чакви.</div>
-                        <a class="promo-link" href="https://t.me/batumi_market?text=%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%81%D1%82%D0%B8%D1%82%D1%8C%20%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%83%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Написать @batumi_market</a>
+                        <a class="promo-link" href="https://t.me/batumi_market?text=%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%81%D1%82%D0%B8%D1%82%D1%8C%20%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%83%20%D0%BD%D0%B0%20%D0%90%D0%B4%D0%B6%D0%B0%D1%80%D0%B8%D1%8F%20%D0%9C%D0%B0%D1%80%D0%BA%D0%B5%D1%82" target="_blank" rel="noopener noreferrer">Написать продавцу</a>
                     </div>
                 </div>
             </div>
@@ -594,7 +594,7 @@
                         </div>
                         <div class="field">
                             <label for="f-tg">Ваш username</label>
-                            <input type="text" id="f-tg" value="@batumi_market" placeholder="@ваш_username">
+                            <input type="text" id="f-tg" value="@batumi_market" placeholder="Ваш username (@username)">
                         </div>
                     </div>
                     <div class="field">
@@ -631,302 +631,389 @@
     </main>
 
     <script>
-        var DEFAULT_USERNAME = "batumi_market";
-        var DEFAULT_TG = "https://t.me/" + DEFAULT_USERNAME;
-        var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
+        (function () {
+            var DEFAULT_USERNAME = "batumi_market";
+            var DEFAULT_TG = "https://t.me/" + DEFAULT_USERNAME;
+            var NO_PHOTO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='260'><rect width='400' height='260' fill='%23eef2f6'/><text x='200' y='135' text-anchor='middle' fill='%2364748b' font-family='Arial' font-size='16'>Нет фото</text></svg>";
 
-        var ads = [
-            {
-                id: 1,
-                title: "Студия с видом на море в Новом Бульваре",
-                price: "1 200 ₾ / мес",
-                category: "realty",
-                city: "Батуми",
-                desc: "Уютная студия с балконом и ремонтом. Рядом море и парк.",
-                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
-                username: DEFAULT_USERNAME,
-                tg: DEFAULT_TG
-            },
-            {
-                id: 2,
-                title: "Toyota Prius 2018 в отличном состоянии",
-                price: "22 900 ₾",
-                category: "auto",
-                city: "Батуми",
-                desc: "Гибрид, экономичный расход, ухоженный салон.",
-                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
-                username: DEFAULT_USERNAME,
-                tg: DEFAULT_TG
-            },
-            {
-                id: 3,
-                title: "MacBook Pro 16 M1 Pro 16/512GB",
-                price: "3 500 ₾",
-                category: "tech",
-                city: "Кобулети",
-                desc: "Отличное состояние, зарядка в комплекте.",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
-                username: DEFAULT_USERNAME,
-                tg: DEFAULT_TG
+            var ads = [
+                {
+                    id: 1,
+                    title: "Студия с видом на море в Новом Бульваре",
+                    price: "1 200 ₾ / мес",
+                    category: "realty",
+                    city: "Батуми",
+                    desc: "Уютная студия с балконом и ремонтом. Рядом море и парк.",
+                    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+                    username: DEFAULT_USERNAME,
+                    tg: DEFAULT_TG
+                },
+                {
+                    id: 2,
+                    title: "Toyota Prius 2018 в отличном состоянии",
+                    price: "22 900 ₾",
+                    category: "auto",
+                    city: "Батуми",
+                    desc: "Гибрид, экономичный расход, ухоженный салон.",
+                    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+                    username: DEFAULT_USERNAME,
+                    tg: DEFAULT_TG
+                },
+                {
+                    id: 3,
+                    title: "MacBook Pro 16 M1 Pro 16/512GB",
+                    price: "3 500 ₾",
+                    category: "tech",
+                    city: "Кобулети",
+                    desc: "Отличное состояние, зарядка в комплекте.",
+                    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+                    username: DEFAULT_USERNAME,
+                    tg: DEFAULT_TG
+                }
+            ];
+
+            var favorites = [];
+            var activeTab = "all";
+            var uploadedPhotoDataUrl = "";
+
+            function hasFav(id) {
+                return favorites.indexOf(id) !== -1;
             }
-        ];
 
-        var favorites = [];
-        var activeTab = "all";
-        var uploadedPhotoDataUrl = "";
-
-        function hasFav(id) {
-            return favorites.indexOf(id) !== -1;
-        }
-
-        function toggleFav(id) {
-            var idx = favorites.indexOf(id);
-            if (idx === -1) {
-                favorites.push(id);
-            } else {
-                favorites.splice(idx, 1);
+            function toggleFav(id) {
+                var idx = favorites.indexOf(id);
+                if (idx === -1) {
+                    favorites.push(id);
+                } else {
+                    favorites.splice(idx, 1);
+                }
+                var countEl = document.getElementById("fav-count");
+                if (countEl) countEl.textContent = "(" + favorites.length + ")";
+                renderAds();
             }
-            var countEl = document.getElementById("fav-count");
-            if (countEl) countEl.textContent = "(" + favorites.length + ")";
-            renderAds();
-        }
 
-        function cleanImageSrc(src) {
-            var s = String(src || "").trim();
-            if (/^https?:\/\//i.test(s) || /^data:image\/(png|jpeg|jpg|webp|gif);base64,/i.test(s)) {
-                return s;
+            function cleanImageSrc(src) {
+                var s = String(src || "").trim();
+                if (/^https?:\/\//i.test(s) || /^data:image\/(png|jpeg|jpg|webp|gif);base64,/i.test(s)) {
+                    return s;
+                }
+                return NO_PHOTO;
             }
-            return NO_PHOTO;
-        }
 
-        function normalizeUsername(raw) {
-            var cleaned = String(raw || "").trim().replace(/^@+/, "");
-            return /^[a-zA-Z0-9_]+$/.test(cleaned) ? cleaned : DEFAULT_USERNAME;
-        }
-
-        function cleanTgUrl(url, fallbackUsername) {
-            var s = String(url || "").trim();
-            if (/^https?:\/\/t\.me\/[a-zA-Z0-9_]+/i.test(s)) {
-                return s;
+            function normalizeUsername(raw) {
+                var cleaned = String(raw || "").trim().replace(/^@+/, "");
+                return /^[a-zA-Z0-9_]+$/.test(cleaned) ? cleaned : DEFAULT_USERNAME;
             }
-            return "https://t.me/" + normalizeUsername(fallbackUsername);
-        }
 
-        function setPanel(panelId, openState) {
-            var formPanel = document.getElementById("panel-form");
-            var adsPanel = document.getElementById("panel-ads");
-            var target = document.getElementById(panelId);
-            if (!target) return;
-
-            var shouldOpen = typeof openState === "boolean" ? openState : !target.classList.contains("open");
-            if (formPanel) formPanel.classList.remove("open");
-            if (adsPanel) adsPanel.classList.remove("open");
-            if (shouldOpen) {
-                target.classList.add("open");
-                target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            function cleanTgUrl(url, fallbackUsername) {
+                var s = String(url || "").trim();
+                if (/^https?:\/\/t\.me\/[a-zA-Z0-9_]+/i.test(s)) {
+                    return s;
+                }
+                return "https://t.me/" + normalizeUsername(fallbackUsername);
             }
-        }
 
-        function resetPhotoInput() {
-            uploadedPhotoDataUrl = "";
-            var fileInput = document.getElementById("f-photo");
-            var preview = document.getElementById("f-photo-preview");
-            if (fileInput) fileInput.value = "";
-            if (preview) {
-                preview.src = "";
-                preview.classList.remove("visible");
+            function setPanel(panelId, openState) {
+                var formPanel = document.getElementById("panel-form");
+                var adsPanel = document.getElementById("panel-ads");
+                var target = document.getElementById(panelId);
+                if (!target) return;
+
+                var shouldOpen = typeof openState === "boolean" ? openState : !target.classList.contains("open");
+                if (formPanel) formPanel.classList.remove("open");
+                if (adsPanel) adsPanel.classList.remove("open");
+                if (shouldOpen) {
+                    target.classList.add("open");
+                }
             }
-        }
 
-        function compressGalleryImage(file, callback) {
-            var reader = new FileReader();
-            reader.onload = function (ev) {
-                var img = new Image();
-                img.onload = function () {
-                    var maxW = 800;
-                    var maxH = 600;
-                    var w = img.width;
-                    var h = img.height;
+            function resetPhotoInput() {
+                uploadedPhotoDataUrl = "";
+                var fileInput = document.getElementById("f-photo");
+                var preview = document.getElementById("f-photo-preview");
+                if (fileInput) fileInput.value = "";
+                if (preview) {
+                    preview.src = "";
+                    preview.classList.remove("visible");
+                }
+            }
 
-                    if (w > maxW || h > maxH) {
-                        var ratio = Math.min(maxW / w, maxH / h);
-                        w = Math.round(w * ratio);
-                        h = Math.round(h * ratio);
-                    }
+            function compressGalleryImage(file, callback) {
+                var reader = new FileReader();
+                reader.onload = function (ev) {
+                    var img = new Image();
+                    img.onload = function () {
+                        var maxW = 800;
+                        var maxH = 600;
+                        var w = img.width;
+                        var h = img.height;
 
-                    var canvas = document.createElement("canvas");
-                    canvas.width = w;
-                    canvas.height = h;
-                    var ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0, w, h);
-                    callback(canvas.toDataURL("image/jpeg", 0.82));
+                        if (w > maxW || h > maxH) {
+                            var ratio = Math.min(maxW / w, maxH / h);
+                            w = Math.round(w * ratio);
+                            h = Math.round(h * ratio);
+                        }
+
+                        var canvas = document.createElement("canvas");
+                        canvas.width = w;
+                        canvas.height = h;
+                        var ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, w, h);
+                        callback(canvas.toDataURL("image/jpeg", 0.82));
+                    };
+                    img.onerror = function () {
+                        callback("");
+                    };
+                    img.src = ev.target.result;
                 };
-                img.onerror = function () {
+                reader.onerror = function () {
                     callback("");
                 };
-                img.src = ev.target.result;
-            };
-            reader.onerror = function () {
-                callback("");
-            };
-            reader.readAsDataURL(file);
-        }
+                reader.readAsDataURL(file);
+            }
 
-        function selectTab(tabName) {
-            activeTab = tabName;
-            var buttons = document.querySelectorAll("#tabs-row .tab-btn");
-            for (var i = 0; i < buttons.length; i++) {
-                var btnTab = buttons[i].getAttribute("data-tab");
-                if (btnTab === tabName) {
-                    buttons[i].classList.add("active");
-                } else {
-                    buttons[i].classList.remove("active");
+            function selectTab(tabName) {
+                activeTab = tabName;
+                var buttons = document.querySelectorAll("#tabs-row .tab-btn");
+                for (var i = 0; i < buttons.length; i++) {
+                    var btnTab = buttons[i].getAttribute("data-tab");
+                    if (btnTab === tabName) {
+                        buttons[i].classList.add("active");
+                    } else {
+                        buttons[i].classList.remove("active");
+                    }
                 }
-            }
-            renderAds();
-        }
-
-        function renderAds() {
-            var grid = document.getElementById("grid");
-            var titleEl = document.getElementById("section-title");
-            var searchInput = document.getElementById("search-input");
-            var citySelect = document.getElementById("city-select");
-            if (!grid) return;
-
-            var q = searchInput ? searchInput.value.trim().toLowerCase() : "";
-            var city = citySelect ? citySelect.value : "all";
-
-            if (titleEl) {
-                titleEl.textContent = activeTab === "favorites" ? "Избранные объявления" : "Свежие объявления";
+                renderAds();
             }
 
-            var filtered = [];
-            for (var i = 0; i < ads.length; i++) {
-                var ad = ads[i];
-                var matchTab = activeTab === "favorites"
-                    ? hasFav(ad.id)
-                    : (activeTab === "all" || ad.category === activeTab);
-                var matchCity = city === "all" || ad.city === city;
-                var matchSearch = !q ||
-                    ad.title.toLowerCase().indexOf(q) !== -1 ||
-                    ad.desc.toLowerCase().indexOf(q) !== -1;
+            function renderAds() {
+                var grid = document.getElementById("grid");
+                var titleEl = document.getElementById("section-title");
+                var searchInput = document.getElementById("search-input");
+                var citySelect = document.getElementById("city-select");
+                if (!grid) return;
 
-                if (matchTab && matchCity && matchSearch) {
-                    filtered.push(ad);
+                var q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+                var city = citySelect ? citySelect.value : "all";
+
+                if (titleEl) {
+                    titleEl.textContent = activeTab === "favorites" ? "Избранные объявления" : "Свежие объявления";
                 }
-            }
 
-            grid.innerHTML = "";
+                var filtered = [];
+                for (var i = 0; i < ads.length; i++) {
+                    var ad = ads[i];
+                    var matchTab = activeTab === "favorites"
+                        ? hasFav(ad.id)
+                        : (activeTab === "all" || ad.category === activeTab);
+                    var matchCity = city === "all" || ad.city === city;
+                    var matchSearch = !q ||
+                        ad.title.toLowerCase().indexOf(q) !== -1 ||
+                        ad.desc.toLowerCase().indexOf(q) !== -1;
 
-            if (filtered.length === 0) {
-                var p = document.createElement("p");
-                p.className = "empty";
-                p.textContent = activeTab === "favorites" ? "В избранном пока пусто" : "Объявлений не найдено";
-                grid.appendChild(p);
-                return;
-            }
+                    if (matchTab && matchCity && matchSearch) {
+                        filtered.push(ad);
+                    }
+                }
 
-            for (var j = 0; j < filtered.length; j++) {
-                (function (item) {
-                    var sellerUser = normalizeUsername(item.username);
-                    var card = document.createElement("div");
-                    card.className = "card";
+                grid.innerHTML = "";
 
-                    var wrap = document.createElement("div");
-                    wrap.className = "img-wrap";
-
-                    var img = document.createElement("img");
-                    img.src = item.image ? cleanImageSrc(item.image) : NO_PHOTO;
-                    img.alt = item.title;
-                    img.onerror = function () {
-                        this.onerror = null;
-                        this.src = NO_PHOTO;
-                    };
-
-                    var heart = document.createElement("button");
-                    heart.type = "button";
-                    heart.className = "fav-heart";
-                    heart.textContent = hasFav(item.id) ? "♥" : "♡";
-                    heart.onclick = function () {
-                        toggleFav(item.id);
-                    };
-
-                    wrap.appendChild(img);
-                    wrap.appendChild(heart);
-
-                    var t = document.createElement("div");
-                    t.className = "card-title";
-                    t.textContent = item.title;
-
-                    var pr = document.createElement("div");
-                    pr.className = "card-price";
-                    pr.textContent = item.price;
-
-                    var d = document.createElement("div");
-                    d.className = "card-desc";
-                    d.textContent = item.desc;
-
-                    var c = document.createElement("div");
-                    c.className = "card-city";
-                    c.textContent = item.city;
-
-                    var link = document.createElement("a");
-                    link.className = "card-tg";
-                    link.href = cleanTgUrl(item.tg, sellerUser);
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                    link.textContent = "Написать продавцу";
-
-                    card.appendChild(wrap);
-                    card.appendChild(t);
-                    card.appendChild(pr);
-                    card.appendChild(d);
-                    card.appendChild(c);
-                    card.appendChild(link);
-
-                    grid.appendChild(card);
-                })(filtered[j]);
-            }
-        }
-
-        var photoInput = document.getElementById("f-photo");
-        if (photoInput) {
-            photoInput.addEventListener("change", function () {
-                var file = this.files && this.files[0];
-                if (!file) {
-                    resetPhotoInput();
+                if (filtered.length === 0) {
+                    var p = document.createElement("p");
+                    p.className = "empty";
+                    p.textContent = activeTab === "favorites" ? "В избранном пока пусто" : "Объявлений не найдено";
+                    grid.appendChild(p);
                     return;
                 }
-                compressGalleryImage(file, function (dataUrl) {
-                    uploadedPhotoDataUrl = dataUrl;
-                    var preview = document.getElementById("f-photo-preview");
-                    if (preview) {
-                        if (dataUrl) {
-                            preview.src = dataUrl;
-                            preview.classList.add("visible");
-                        } else {
-                            preview.src = "";
-                            preview.classList.remove("visible");
-                        }
-                    }
-                });
-            });
-        }
 
-        document.addEventListener("click", function (e) {
-            var target = e.target;
-            if (!target) return;
+                for (var j = 0; j < filtered.length; j++) {
+                    (function (item) {
+                        var sellerUser = normalizeUsername(item.username);
+                        var card = document.createElement("div");
+                        card.className = "card";
 
-            if (target.closest("#btn-toggle-form")) {
-                setPanel("panel-form");
-                return;
-            }
-            if (target.closest("#btn-close-form") || target.closest("#btn-cancel-form")) {
-                var f = document.getElementById("ad-form");
-                if (f) {
-                    f.reset();
-                    var tgField = document.getElementById("f-tg");
-                    if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
+                        var wrap = document.createElement("div");
+                        wrap.className = "img-wrap";
+
+                        var img = document.createElement("img");
+                        img.src = item.image ? cleanImageSrc(item.image) : NO_PHOTO;
+                        img.alt = item.title;
+                        img.onerror = function () {
+                            this.onerror = null;
+                            this.src = NO_PHOTO;
+                        };
+
+                        var heart = document.createElement("button");
+                        heart.type = "button";
+                        heart.className = "fav-heart";
+                        heart.textContent = hasFav(item.id) ? "♥" : "♡";
+                        heart.onclick = function () {
+                            toggleFav(item.id);
+                        };
+
+                        wrap.appendChild(img);
+                        wrap.appendChild(heart);
+
+                        var t = document.createElement("div");
+                        t.className = "card-title";
+                        t.textContent = item.title;
+
+                        var pr = document.createElement("div");
+                        pr.className = "card-price";
+                        pr.textContent = item.price;
+
+                        var d = document.createElement("div");
+                        d.className = "card-desc";
+                        d.textContent = item.desc;
+
+                        var c = document.createElement("div");
+                        c.className = "card-city";
+                        c.textContent = item.city;
+
+                        var link = document.createElement("a");
+                        link.className = "card-tg";
+                        link.href = cleanTgUrl(item.tg, sellerUser);
+                        link.target = "_blank";
+                        link.rel = "noopener noreferrer";
+                        link.textContent = "Написать продавцу";
+
+                        card.appendChild(wrap);
+                        card.appendChild(t);
+                        card.appendChild(pr);
+                        card.appendChild(d);
+                        card.appendChild(c);
+                        card.appendChild(link);
+
+                        grid.appendChild(card);
+                    })(filtered[j]);
                 }
-                resetPhotoInput();
-                setPanel("panel-form", false);
+            }
+
+            function initApp() {
+                var tabButtons = document.querySelectorAll("#tabs-row .tab-btn");
+                for (var i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].addEventListener("click", function () {
+                        var tab = this.getAttribute("data-tab");
+                        if (tab) selectTab(tab);
+                    });
+                }
+
+                var btnForm = document.getElementById("btn-toggle-form");
+                if (btnForm) btnForm.addEventListener("click", function () { setPanel("panel-form"); });
+
+                var btnCloseForm = document.getElementById("btn-close-form");
+                if (btnCloseForm) btnCloseForm.addEventListener("click", function () { setPanel("panel-form", false); });
+
+                var btnCancelForm = document.getElementById("btn-cancel-form");
+                if (btnCancelForm) {
+                    btnCancelForm.addEventListener("click", function () {
+                        var f = document.getElementById("ad-form");
+                        if (f) {
+                            f.reset();
+                            var tgField = document.getElementById("f-tg");
+                            if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
+                        }
+                        resetPhotoInput();
+                        setPanel("panel-form", false);
+                    });
+                }
+
+                var btnAdsTop = document.getElementById("btn-toggle-ads");
+                if (btnAdsTop) btnAdsTop.addEventListener("click", function () { setPanel("panel-ads"); });
+
+                var btnAdsInline = document.getElementById("btn-inline-ads");
+                if (btnAdsInline) btnAdsInline.addEventListener("click", function () { setPanel("panel-ads"); });
+
+                var btnCloseAds = document.getElementById("btn-close-ads");
+                if (btnCloseAds) btnCloseAds.addEventListener("click", function () { setPanel("panel-ads", false); });
+
+                var btnReset = document.getElementById("btn-reset");
+                if (btnReset) {
+                    btnReset.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        var sIn = document.getElementById("search-input");
+                        var cSel = document.getElementById("city-select");
+                        if (sIn) sIn.value = "";
+                        if (cSel) cSel.value = "all";
+                        selectTab("all");
+                    });
+                }
+
+                var btnSearch = document.getElementById("btn-search");
+                if (btnSearch) btnSearch.addEventListener("click", renderAds);
+
+                var searchEl = document.getElementById("search-input");
+                if (searchEl) searchEl.addEventListener("input", renderAds);
+
+                var cityEl = document.getElementById("city-select");
+                if (cityEl) cityEl.addEventListener("change", renderAds);
+
+                var photoInput = document.getElementById("f-photo");
+                if (photoInput) {
+                    photoInput.addEventListener("change", function () {
+                        var file = this.files && this.files[0];
+                        if (!file) {
+                            resetPhotoInput();
+                            return;
+                        }
+                        compressGalleryImage(file, function (dataUrl) {
+                            uploadedPhotoDataUrl = dataUrl;
+                            var preview = document.getElementById("f-photo-preview");
+                            if (preview) {
+                                if (dataUrl) {
+                                    preview.src = dataUrl;
+                                    preview.classList.add("visible");
+                                } else {
+                                    preview.src = "";
+                                    preview.classList.remove("visible");
+                                }
+                            }
+                        });
+                    });
+                }
+
+                var adForm = document.getElementById("ad-form");
+                if (adForm) {
+                    adForm.addEventListener("submit", function (e) {
+                        e.preventDefault();
+                        var titleVal = document.getElementById("f-title").value.trim();
+                        if (!titleVal) return;
+
+                        var numPrice = Number(document.getElementById("f-price").value);
+                        var priceText = isFinite(numPrice) ? numPrice.toLocaleString("ru-RU") + " ₾" : "0 ₾";
+                        var sellerUsername = normalizeUsername(document.getElementById("f-tg").value);
+                        var tgUrl = "https://t.me/" + sellerUsername;
+
+                        ads.unshift({
+                            id: Date.now(),
+                            title: titleVal,
+                            price: priceText,
+                            category: document.getElementById("f-category").value,
+                            city: document.getElementById("f-city").value,
+                            image: uploadedPhotoDataUrl || "",
+                            desc: document.getElementById("f-desc").value.trim() || "Без описания.",
+                            username: sellerUsername,
+                            tg: cleanTgUrl(tgUrl, sellerUsername)
+                        });
+
+                        adForm.reset();
+                        var tgField = document.getElementById("f-tg");
+                        if (tgField) tgField.value = "@" + DEFAULT_USERNAME;
+                        resetPhotoInput();
+                        setPanel("panel-form", false);
+                        renderAds();
+                    });
+                }
+
+                renderAds();
+            }
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initApp);
+            } else {
+                initApp();
+            }
+        })();
+    </script>
+</body>
+</html>
